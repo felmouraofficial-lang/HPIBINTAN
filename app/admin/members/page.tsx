@@ -1,0 +1,2 @@
+﻿import { AdminShell } from "@/components/admin-shell"; import { AdminCrud } from "@/components/admin-crud";
+export default function Page() { return <AdminShell><AdminCrud title="Anggota" resource="members" fields={[{name:"name",label:"Nama",required:true},{name:"position",label:"Jabatan",required:true},{name:"contact",label:"Kontak"},{name:"photo",label:"Upload Foto",type:"file",accept:"image/*"},{name:"isActive",label:"Aktif",type:"select",options:["true","false"]}]} /></AdminShell>; }

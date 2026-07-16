@@ -1,0 +1,2 @@
+import { AdminShell } from "@/components/admin-shell"; import { AdminCrud } from "@/components/admin-crud";
+export default function Page() { return <AdminShell><AdminCrud title="Absensi Rapat" resource="meetings" fields={[{name:"title",label:"Judul Rapat",required:true},{name:"date",label:"Tanggal",type:"date",required:true},{name:"time",label:"Jam",required:true},{name:"location",label:"Lokasi",required:true},{name:"description",label:"Deskripsi",type:"textarea"}]} /></AdminShell>; }

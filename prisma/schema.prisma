@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String   @default("Admin HPI Bintan")
+  password  String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model OrganizationProfile {
+  id           String   @id @default(cuid())
+  history      String   @db.Text
+  vision       String   @db.Text
+  mission      String   @db.Text
+  structure    String   @db.Text
+  heroTitle    String   @default("Sistem Informasi HPI Bintan")
+  heroSubtitle String   @db.Text
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Member {
+  id                 String              @id @default(cuid())
+  name               String
+  position           String
+  contact            String?
+  photo              String?
+  isActive           Boolean             @default(true)
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  attendances        Attendance[]
+  meetingAttendances MeetingAttendance[]
+}
+
+model Attendance {
+  id        String           @id @default(cuid())
+  memberId  String
+  member    Member           @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  date      DateTime         @default(now())
+  checkIn   DateTime?
+  checkOut  DateTime?
+  status    AttendanceStatus @default(PRESENT)
+  notes     String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@index([date, status])
+}
+
+model Meeting {
+  id          String              @id @default(cuid())
+  title       String
+  date        DateTime
+  time        String
+  location    String
+  description String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  attendances MeetingAttendance[]
+}
+
+model MeetingAttendance {
+  id        String        @id @default(cuid())
+  meetingId String
+  memberId  String
+  status    MeetingStatus @default(PRESENT)
+  checkedAt DateTime      @default(now())
+  meeting   Meeting       @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  member    Member        @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  @@unique([meetingId, memberId])
+}
+
+model Gallery {
+  id          String          @id @default(cuid())
+  title       String
+  category    GalleryCategory
+  fileUrl     String
+  thumbnail   String?
+  description String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model Documentation {
+  id          String   @id @default(cuid())
+  title       String
+  fileUrl     String
+  fileType    String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Transportation {
+  id          String          @id @default(cuid())
+  name        String
+  vehicleType String
+  capacity    Int
+  status      TransportStatus @default(AVAILABLE)
+  photo       String?
+  description String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text
+  publishedAt DateTime @default(now())
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Contact {
+  id        String   @id @default(cuid())
+  address   String   @db.Text
+  mapUrl    String?
+  whatsapp  String?
+  email     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Settings {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+enum AttendanceStatus {
+  PRESENT
+  LATE
+  ABSENT
+}
+
+enum MeetingStatus {
+  PRESENT
+  LATE
+  ABSENT
+}
+
+enum GalleryCategory {
+  PHOTO
+  VIDEO
+}
+
+enum TransportStatus {
+  AVAILABLE
+  UNAVAILABLE
+}

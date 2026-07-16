@@ -1,0 +1,2 @@
+import { AdminShell } from "@/components/admin-shell"; import { AdminCrud } from "@/components/admin-crud";
+export default function Page() { return <AdminShell><AdminCrud title="Absensi Harian" resource="attendance" fields={[{name:"memberId",label:"ID Anggota",required:true},{name:"date",label:"Tanggal",type:"date"},{name:"status",label:"Status",type:"select",options:["PRESENT","LATE","ABSENT"]},{name:"notes",label:"Catatan"}]} /></AdminShell>; }

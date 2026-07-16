@@ -1,0 +1,2 @@
+import { AdminShell } from "@/components/admin-shell"; import { AdminCrud } from "@/components/admin-crud";
+export default function Page() { return <AdminShell><AdminCrud title="Pengumuman" resource="announcements" fields={[{name:"title",label:"Judul",required:true},{name:"content",label:"Konten",type:"textarea",required:true},{name:"isPublished",label:"Publikasi",type:"select",options:["true","false"]}]} /></AdminShell>; }

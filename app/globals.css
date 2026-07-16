@@ -1,0 +1,20 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --background: 0 0% 100%; --foreground: 222 47% 11%; --border: 214 32% 91%; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #fffdf8; color: #151515; }
+a { text-decoration: none; }
+.container { width: min(1180px, calc(100% - 32px)); margin-inline: auto; }
+.glass { background: rgba(255,255,255,.78); backdrop-filter: blur(22px); border: 1px solid rgba(255,255,255,.72); box-shadow: 0 24px 70px rgba(15, 23, 42, .12); }
+.premium-grid { background-image: linear-gradient(rgba(215,25,32,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(215,25,32,.08) 1px, transparent 1px); background-size: 48px 48px; }
+.text-balance { text-wrap: balance; }
+
+@keyframes cinematicZoom {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.045); }
+  100% { transform: scale(1); }
+}
+.cinematic-hero-still { animation: cinematicZoom 18s ease-in-out infinite; }
