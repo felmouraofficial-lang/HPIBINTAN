@@ -31,7 +31,7 @@ async function getHomeData() {
   try {
     const [profile, members, announcements, meetings, gallery, docs, transport, contact, settings] = await Promise.all([
       prisma.organizationProfile.findFirst(),
-      prisma.member.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" }, take: 8 }),
+      prisma.member.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" }, take: 4 }),
       prisma.announcement.findMany({ where: { isPublished: true }, orderBy: { publishedAt: "desc" }, take: 3 }),
       prisma.meeting.findMany({ orderBy: { date: "asc" }, take: 3 }),
       prisma.gallery.findMany({ orderBy: { createdAt: "desc" }, take: 6 }),
@@ -43,7 +43,7 @@ async function getHomeData() {
     const setting = Object.fromEntries(settings.map((s) => [s.key, s.value]));
     return {
       profile: profile ?? fallbackProfile,
-      members: members.length ? members : fallbackMembers,
+      members: members.length ? members : fallbackMembers.slice(0, 4),
       announcements: announcements.length ? announcements : fallbackAnnouncements,
       meetings: meetings.length ? meetings.map((meeting) => ({ ...meeting, description: meeting.description ?? "" })) : fallbackMeetings,
       gallery: gallery.length ? gallery : fallbackGallery,
@@ -57,7 +57,7 @@ async function getHomeData() {
   } catch {
     return {
       profile: fallbackProfile,
-      members: fallbackMembers,
+      members: fallbackMembers.slice(0, 4),
       announcements: fallbackAnnouncements,
       meetings: fallbackMeetings,
       gallery: fallbackGallery,
@@ -122,6 +122,9 @@ export default async function HomePage() {
           <div className="container">
             <SectionTitle center eyebrow="Struktur Organisasi" title="Pengurus Inti HPI Pulau Bintan" subtitle="Sinergi profesional untuk pariwisata unggul" />
             <OrganizationMotion members={members} />
+            <div className="mt-10 text-center">
+              <Link href="/anggota" className="inline-flex h-14 items-center justify-center rounded-full border border-[#ead6bc] bg-white px-8 text-sm font-black uppercase tracking-[.14em] text-[#8a4719] shadow-sm transition hover:-translate-y-1 hover:border-[#ff9900] hover:text-primary">Lihat Seluruh Anggota</Link>
+            </div>
           </div>
         </section>
 

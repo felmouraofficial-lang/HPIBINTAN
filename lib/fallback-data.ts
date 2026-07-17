@@ -21,19 +21,25 @@ export const fallbackContact = {
   mapUrl: "https://maps.google.com/?q=Bintan",
 };
 
-export const fallbackMembers = [
-  ["Ardiansyah Putra", "Ketua DPD"],
-  ["Maya Sari", "Wakil Ketua"],
-  ["Rizal Maulana", "Sekretaris"],
-  ["Dewi Lestari", "Bendahara"],
-  ["Fahmi Ramadhan", "Koordinator Lapangan"],
-  ["Nadia Prameswari", "Koordinator Pelatihan"],
-  ["Bima Saputra", "Pramuwisata"],
-  ["Siti Nurhaliza", "Pramuwisata"],
-].map(([name, position], index) => ({
+const fallbackMemberNames = [
+  "Ardiansyah Putra", "Maya Sari", "Rizal Maulana", "Dewi Lestari", "Fahmi Ramadhan",
+  "Nadia Prameswari", "Bima Saputra", "Siti Nurhaliza", "Andika Pratama", "Fitri Handayani",
+  "Yoga Saputra", "Laras Wulandari", "Hendra Wijaya", "Putri Amelia", "Taufik Hidayat",
+  "Rani Puspita", "Dimas Ramadhan", "Intan Permata", "Agus Setiawan", "Melati Kirana",
+  "Bayu Nugroho", "Citra Lestari", "Fajar Maulana", "Nabila Safitri", "Raka Firmansyah",
+  "Ayu Kartika", "Reza Fahlevi", "Novi Anggraini", "Gilang Prakoso", "Dian Maharani",
+  "Ilham Akbar", "Mira Oktaviani", "Rudi Hartono", "Sarah Amalia", "Wahyu Saputra",
+  "Niken Pertiwi", "Yusuf Alfarizi", "Mega Pratiwi", "Doni Kurniawan", "Vina Marlina",
+  "Reno Aditya", "Tiara Maharani", "Sandi Pratama", "Lina Marlina", "Iqbal Ramadhan",
+  "Dara Anindya", "Eko Purnomo", "Ratna Sari", "Kevin Alamsyah", "Sri Wahyuni",
+];
+
+const fallbackPositions = ["Ketua DPD", "Wakil Ketua", "Sekretaris", "Bendahara", "Koordinator Lapangan", "Koordinator Pelatihan", "Bidang Humas", "Bidang Keanggotaan", "Pramuwisata", "Pramuwisata"];
+
+export const fallbackMembers = fallbackMemberNames.map((name, index) => ({
   id: `fallback-member-${index + 1}`,
   name,
-  position,
+  position: fallbackPositions[index] ?? "Pramuwisata",
   contact: `+62 812-4500-11${String(index + 1).padStart(2, "0")}`,
   photo: ["/member-dummy-1.jpeg", "/member-dummy-2.jpeg", "/member-dummy-3.jpeg", "/uploads/1784221305257-f652719a-d758-47ae-ae59-a9beca92924e.jpg"][index % 4],
   isActive: true,
