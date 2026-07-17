@@ -25,7 +25,7 @@ export default async function MembersPage() {
               <ArrowLeft className="h-4 w-4" />Kembali ke Beranda
             </Link>
             <p className="mt-8 text-sm font-black uppercase tracking-[.28em] text-[#c99213]">Struktur Organisasi</p>
-            <h1 className="mt-3 text-balance text-5xl font-black leading-tight text-[#2f2119] md:text-7xl">Seluruh Anggota DPC HPI Kabupaten Bintan</h1>
+            <h1 className="mt-3 text-balance text-5xl font-black leading-tight text-[#2f2119] md:text-7xl">Seluruh Anggota HPI Pulau Bintan</h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[#8f765f]">Data anggota dapat ditambah, diedit, dihapus, dan diperbarui fotonya melalui Dashboard Admin.</p>
             <div className="mx-auto mt-7 inline-flex items-center gap-3 rounded-full bg-[#8a4719] px-5 py-3 text-sm font-black text-white"><Users className="h-4 w-4" />{members.length} Anggota Aktif</div>
           </div>

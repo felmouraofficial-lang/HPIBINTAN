@@ -41,7 +41,7 @@ export function HomeGalleryGrid({ items }: { items: GalleryItem[] }) {
             <div className="p-5">
               <Camera className="h-5 w-5 text-primary" />
               <h3 className="mt-3 text-xl font-black text-[#2f2119]">Dokumentasi Rapat</h3>
-              <p className="mt-2 text-sm leading-6 text-zinc-600">Kumpulan dokumentasi rapat pengurus dan koordinasi anggota DPC HPI Kabupaten Bintan.</p>
+              <p className="mt-2 text-sm leading-6 text-zinc-600">Kumpulan dokumentasi rapat pengurus dan koordinasi anggota HPI Pulau Bintan.</p>
             </div>
           </Link>
         )}

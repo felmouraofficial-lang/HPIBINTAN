@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Globe2, Mail, MapPin, Phone, Share2 } from "lucide-react";
-import { logos } from "@/lib/utils";
 
 const quickLinks = [
   ["Tentang Kami", "/tentang-kami"],
@@ -22,10 +21,15 @@ export function SiteFooter() {
       <div className="absolute inset-0 premium-grid opacity-10" />
       <div className="container relative grid gap-10 pb-12 lg:grid-cols-[1.1fr_.8fr_.9fr_1.1fr]">
         <div>
-          <div className="mb-6 flex items-center gap-3">
-            <Image src={logos[0]} alt="Logo HPI Bintan" width={110} height={60} className="rounded-2xl bg-white object-contain p-2" />
+          <div className="mb-7 flex items-center gap-4">
+            <span className="grid h-[118px] w-[118px] place-items-center overflow-hidden rounded-3xl bg-white p-3 shadow-[0_20px_60px_rgba(0,0,0,.24)]">
+              <Image src="/logo-hpi-indonesia.jpg" alt="Logo Himpunan Pramuwisata Indonesia" width={140} height={140} className="h-full w-full object-contain" />
+            </span>
+            <span className="grid h-[118px] w-[118px] place-items-center overflow-hidden rounded-3xl bg-white p-3 shadow-[0_20px_60px_rgba(0,0,0,.24)]">
+              <Image src="/logo-ntga.jpg" alt="Logo National Tour Guiding Academy" width={140} height={140} className="h-full w-full object-contain" />
+            </span>
           </div>
-          <h2 className="text-3xl font-black leading-tight">DPC HPI Kabupaten Bintan</h2>
+          <h2 className="max-w-sm text-4xl font-black leading-tight">DPC HPI Kabupaten Bintan</h2>
           <p className="mt-4 max-w-md text-sm leading-7 text-zinc-300">Website resmi Himpunan Pramuwisata Indonesia Kabupaten Bintan untuk informasi organisasi, anggota, agenda, dokumentasi, dan layanan guide booking.</p>
           <div className="mt-6 flex gap-2">
             <span className="grid h-10 w-10 place-items-center rounded-full border border-white/12 bg-white/8"><Share2 className="h-4 w-4" /></span>

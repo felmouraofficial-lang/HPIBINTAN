@@ -20,21 +20,13 @@ export function HomeHero({ image }: { image: string }) {
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#fffaf3] to-transparent" />
 
       <div className="container relative flex min-h-[780px] items-center pb-14 pt-28 sm:min-h-[820px] md:min-h-screen md:pb-20 md:pt-32">
-        <motion.div initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="max-w-4xl">
-          <div className="mb-6 flex flex-wrap items-center gap-3 sm:gap-4 md:mb-8">
-            <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-3xl bg-white p-2 shadow-[0_18px_50px_rgba(0,0,0,.22)] sm:h-24 sm:w-24">
-              <Image src="/logo-hpi-indonesia.jpg" alt="Logo Himpunan Pramuwisata Indonesia" width={120} height={120} className="h-full w-full object-contain" />
-            </span>
-            <span className="grid h-20 w-20 place-items-center overflow-hidden rounded-3xl bg-white p-2 shadow-[0_18px_50px_rgba(0,0,0,.22)] sm:h-24 sm:w-24">
-              <Image src="/logo-ntga.jpg" alt="Logo National Tour Guiding Academy" width={120} height={120} className="h-full w-full object-contain" />
-            </span>
-          </div>
+        <motion.div initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: "easeOut" }} className="max-w-3xl">
           <div className="inline-flex max-w-full items-center gap-3 rounded-full border border-white/28 bg-white/16 px-4 py-2.5 text-xs font-black text-white shadow-[0_16px_40px_rgba(0,0,0,.16)] backdrop-blur-xl sm:text-sm"><span className="h-3 w-3 shrink-0 rounded-full bg-[#ff9900]" />Organisasi Profesi Pramuwisata</div>
-          <h1 className="mt-7 max-w-4xl text-balance text-[clamp(2.7rem,12vw,5.4rem)] font-black uppercase leading-[.95] tracking-normal drop-shadow-[0_20px_55px_rgba(0,0,0,.32)] md:mt-9 md:text-[clamp(3.4rem,6.6vw,6.2rem)] md:leading-[.96]">
-            DPC HPI<br /><span className="text-[#ff9900]">Kabupaten Bintan</span>
+          <h1 className="mt-7 text-balance text-[clamp(2.75rem,13vw,5.6rem)] font-black uppercase leading-[.95] tracking-normal drop-shadow-[0_20px_55px_rgba(0,0,0,.32)] md:mt-9 md:text-[clamp(3rem,6vw,5.6rem)] md:leading-[.98]">
+            Himpunan<br />Pramuwisata<br />Indonesia<br /><span className="text-[#ff9900]">DPC Bintan</span>
           </h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18, duration: 0.65 }} className="mt-6 max-w-2xl text-base font-semibold leading-8 text-white/88 md:mt-7 md:text-xl">
-            Website resmi Himpunan Pramuwisata Indonesia Kabupaten Bintan untuk informasi organisasi, anggota, agenda, dokumentasi, dan layanan guide booking.
+            Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan untuk pelayanan wisata profesional, beretika, dan berkelas internasional.
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.32, duration: 0.65 }} className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap md:mt-9">
             <Link href="/anggota" className="inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-[#ff9900] px-7 py-3 text-base font-black text-white shadow-[0_24px_60px_rgba(255,153,0,.32)] transition hover:-translate-y-1 hover:bg-primary">Daftar Anggota <ArrowRight className="h-5 w-5" /></Link>

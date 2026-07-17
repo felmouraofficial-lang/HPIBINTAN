@@ -37,7 +37,7 @@ export function OrganizationMotion({ members }: { members: MemberCard[] }) {
                 </div>
                 <div className="mt-8 rounded-full bg-[#884416] px-5 py-2 text-[11px] font-black uppercase tracking-[.24em] text-white">{member.position}</div>
                 <h3 className="mt-6 text-2xl font-black leading-tight text-[#2f2119] md:text-3xl">{member.name}</h3>
-                <p className="mt-3 text-sm font-semibold text-[#8f765f]">DPC HPI Kabupaten Bintan</p>
+                <p className="mt-3 text-sm font-semibold text-[#8f765f]">HPI Pulau Bintan</p>
               </div>
             </div>
           </div>

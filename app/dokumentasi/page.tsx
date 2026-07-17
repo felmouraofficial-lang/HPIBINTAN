@@ -26,7 +26,7 @@ export default async function DocumentsPage() {
   return (
     <>
       <SiteHeader />
-      <PageHero title="Dokumentasi" description="Arsip kegiatan, dokumen organisasi, dan bahan administrasi DPC HPI Kabupaten Bintan." />
+      <PageHero title="Dokumentasi" description="Arsip kegiatan, dokumen organisasi, dan bahan administrasi HPI Pulau Bintan." />
       <main className="bg-[var(--surface)] py-14">
         <div className="container">
           <div className="mb-8 flex flex-col gap-4 rounded-[1.75rem] border border-black/5 bg-white/82 p-5 shadow-soft backdrop-blur md:flex-row md:items-center md:justify-between dark:border-white/10 dark:bg-white/8">

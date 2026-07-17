@@ -19,7 +19,7 @@ export function HomeAgendaSection({ announcements, meetings }: { announcements: 
       id: `announcement-${item.id}`,
       title: item.title,
       date: item.publishedAt,
-      location: "DPC HPI Kabupaten Bintan",
+      location: "HPI Pulau Bintan",
       category: "Pengumuman",
       summary: item.content,
       image: thumbnails[index % thumbnails.length],
@@ -30,7 +30,7 @@ export function HomeAgendaSection({ announcements, meetings }: { announcements: 
       date: item.date,
       location: item.location,
       category: "Kegiatan",
-      summary: item.description || `${item.time} - agenda kegiatan DPC HPI Kabupaten Bintan.`,
+      summary: item.description || `${item.time} - agenda kegiatan HPI Pulau Bintan.`,
       image: thumbnails[(index + 1) % thumbnails.length],
     })),
   ].slice(0, 4);
