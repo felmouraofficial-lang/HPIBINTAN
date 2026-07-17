@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarCheck, Menu, X } from "lucide-react";
+import { CalendarCheck, Menu, Moon, Sun, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { logos } from "@/lib/utils";
 
@@ -19,6 +19,7 @@ const nav = [
 export function SiteHeader() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dark, setDark] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setSolid(window.scrollY > 36);
@@ -27,28 +28,45 @@ export function SiteHeader() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const saved = window.localStorage.getItem("hpi-theme");
+    const enabled = saved ? saved === "dark" : false;
+    setDark(enabled);
+    document.documentElement.classList.toggle("dark", enabled);
+  }, []);
+
+  function toggleTheme() {
+    const next = !dark;
+    setDark(next);
+    document.documentElement.classList.toggle("dark", next);
+    window.localStorage.setItem("hpi-theme", next ? "dark" : "light");
+  }
+
   return (
-    <header className={`fixed left-0 right-0 top-0 z-50 transition duration-500 ${solid ? "border-b border-zinc-200/70 bg-white/88 text-zinc-950 shadow-[0_18px_60px_rgba(15,23,42,.10)] backdrop-blur-2xl" : "border-b border-white/12 bg-white/10 text-white shadow-[0_18px_50px_rgba(0,0,0,.06)] backdrop-blur-xl"}`}>
-      <div className="container flex h-24 items-center justify-between gap-4">
+    <header className="fixed left-0 right-0 top-4 z-50 text-white transition duration-500">
+      <div className={`container flex h-[76px] items-center justify-between gap-4 rounded-[2rem] px-4 transition duration-500 ${solid ? "bg-white/86 text-zinc-950 shadow-[0_18px_70px_rgba(15,23,42,.14)] ring-1 ring-black/5 backdrop-blur-2xl dark:bg-zinc-950/82 dark:text-white dark:ring-white/10" : "bg-white/12 shadow-[0_18px_70px_rgba(0,0,0,.16)] ring-1 ring-white/18 backdrop-blur-2xl"}`}>
         <Link href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="grid h-16 w-28 shrink-0 place-items-center transition">
-            <Image src={logos[0]} alt="Logo HPI Bintan" width={112} height={64} className="h-auto max-h-16 w-full object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,.30)]" priority />
+          <span className="grid h-14 w-24 shrink-0 place-items-center transition">
+            <Image src={logos[0]} alt="Logo HPI Bintan" width={104} height={58} className="h-auto max-h-14 w-full object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,.26)]" priority />
           </span>
           <span className="hidden min-w-0 sm:block">
             <span className="block whitespace-nowrap text-base font-black leading-tight tracking-wide xl:text-lg">HPI Pulau Bintan</span>
-            <span className={`mt-0.5 block text-[10px] font-black uppercase tracking-[.24em] ${solid ? "text-zinc-500" : "text-white/78"}`}>Kepulauan Riau</span>
+            <span className={`mt-0.5 block text-[10px] font-black uppercase tracking-[.24em] ${solid ? "text-zinc-500 dark:text-white/62" : "text-white/78"}`}>Kepulauan Riau</span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 text-sm font-black lg:flex">
+        <nav className={`hidden items-center gap-1 rounded-full p-1 text-sm font-black lg:flex ${solid ? "bg-zinc-100/80 dark:bg-white/8" : "bg-white/10"}`}>
           {nav.map(([label, href]) => (
-            <Link key={href} href={href} className={`rounded-full px-4 py-2 transition duration-300 hover:-translate-y-0.5 ${solid ? "text-zinc-700 hover:bg-zinc-100 hover:text-primary" : "text-white/92 hover:bg-white/16 hover:text-white"}`}>
+            <Link key={href} href={href} className={`rounded-full px-4 py-2 transition duration-300 hover:-translate-y-0.5 ${label === "Beranda" ? "bg-white/22 shadow-sm" : ""} ${solid ? "text-zinc-700 hover:bg-white hover:text-primary dark:text-white/82 dark:hover:bg-white/12" : "text-white/92 hover:bg-white/16 hover:text-white"}`}>
               {label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-3 lg:flex">
+          <button type="button" onClick={toggleTheme} className={`grid h-11 w-11 place-items-center rounded-full transition ${solid ? "bg-zinc-100 text-zinc-800 hover:bg-zinc-200 dark:bg-white/10 dark:text-white" : "bg-white/12 text-white hover:bg-white/20"}`} aria-label="Ganti mode tampilan">
+            {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          </button>
           <Link href="/kontak" className="inline-flex items-center gap-2 rounded-full bg-[#ff9900] px-5 py-3 text-xs font-black uppercase tracking-[.12em] text-white shadow-[0_18px_45px_rgba(255,153,0,.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-primary">
             <CalendarCheck className="h-4 w-4" />Guide Booking
           </Link>
