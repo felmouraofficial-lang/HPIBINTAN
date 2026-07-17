@@ -38,8 +38,8 @@ async function getHomeData() {
       transport: transport.length ? transport : fallbackTransportation,
       contact: contact ?? fallbackContact,
       setting: { ...fallbackSettings, ...setting },
-      destinations: parseJson<Destination[]>(setting.destinations, fallbackDestinations),
-      partners: parseJson<string[]>(setting.partners, fallbackPartners),
+      destinations: parseArray<Destination>(setting.destinations, fallbackDestinations),
+      partners: parseArray<string>(setting.partners, fallbackPartners),
     };
   } catch {
     return {
@@ -58,6 +58,7 @@ async function getHomeData() {
   }
 }
 function parseJson<T>(value: string | undefined, fallback: T): T { try { return value ? JSON.parse(value) as T : fallback; } catch { return fallback; } }
+function parseArray<T>(value: string | undefined, fallback: T[]): T[] { const parsed = parseJson<T[]>(value, fallback); return parsed.length ? parsed : fallback; }
 export default async function HomePage() {
   const { profile, members, announcements, meetings, gallery, transport, contact, setting, destinations, partners } = await getHomeData();
 

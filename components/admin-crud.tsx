@@ -32,8 +32,15 @@ export function AdminCrud({ title, resource, fields }: { title: string; resource
 
   async function load() {
     setLoading(true);
-    const res = await fetch(`/api/admin/${resource}`);
-    setRows(await res.json());
+    try {
+      const res = await fetch(`/api/admin/${resource}`);
+      const data = await res.json();
+      setRows(Array.isArray(data) ? data : []);
+      if (!res.ok) setToast(data?.error ?? "Data belum bisa dimuat");
+    } catch {
+      setRows([]);
+      setToast("Data belum bisa dimuat. Cek koneksi database di Vercel.");
+    }
     setLoading(false);
   }
 
@@ -56,12 +63,16 @@ export function AdminCrud({ title, resource, fields }: { title: string; resource
       }
       const method = editing?.id ? "PUT" : "POST";
       const url = editing?.id ? `/api/admin/${resource}/${editing.id}` : `/api/admin/${resource}`;
-      await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      if (!res.ok) {
+        const error = await res.json().catch(() => null);
+        throw new Error(error?.error ?? "Simpan data gagal");
+      }
       setEditing(null);
       setToast("Data tersimpan");
       await load();
-    } catch {
-      setToast("Upload atau simpan data gagal. Cek format file lalu coba lagi.");
+    } catch (error) {
+      setToast(error instanceof Error ? error.message : "Upload atau simpan data gagal. Cek format file lalu coba lagi.");
     } finally {
       setSaving(false);
     }
@@ -69,7 +80,12 @@ export function AdminCrud({ title, resource, fields }: { title: string; resource
 
   async function remove(id: string) {
     if (!confirm("Hapus data ini?")) return;
-    await fetch(`/api/admin/${resource}/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/admin/${resource}/${id}`, { method: "DELETE" });
+    if (!res.ok) {
+      const error = await res.json().catch(() => null);
+      setToast(error?.error ?? "Hapus data gagal");
+      return;
+    }
     setToast("Data dihapus");
     await load();
   }

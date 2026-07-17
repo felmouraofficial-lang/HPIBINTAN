@@ -17,7 +17,11 @@ export async function PUT(request: Request, context: Context) {
   const { resource, id } = await context.params;
   if (!isResource(resource)) return NextResponse.json({ error: "Not found" }, { status: 404 });
   const model = map[resource];
-  return NextResponse.json(await (model as any).update({ where: { id }, data: normalize(await request.json()) }));
+  try {
+    return NextResponse.json(await (model as any).update({ where: { id }, data: normalize(await request.json()) }));
+  } catch {
+    return NextResponse.json({ error: "Database belum siap. Periksa DATABASE_URL, migration, dan seed di Vercel." }, { status: 503 });
+  }
 }
 
 export async function DELETE(_: Request, context: Context) {
@@ -25,6 +29,10 @@ export async function DELETE(_: Request, context: Context) {
   const { resource, id } = await context.params;
   if (!isResource(resource)) return NextResponse.json({ error: "Not found" }, { status: 404 });
   const model = map[resource];
-  await (model as any).delete({ where: { id } });
-  return NextResponse.json({ ok: true });
+  try {
+    await (model as any).delete({ where: { id } });
+    return NextResponse.json({ ok: true });
+  } catch {
+    return NextResponse.json({ error: "Database belum siap. Periksa DATABASE_URL, migration, dan seed di Vercel." }, { status: 503 });
+  }
 }
