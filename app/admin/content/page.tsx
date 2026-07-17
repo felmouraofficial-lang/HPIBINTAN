@@ -1,4 +1,6 @@
-﻿import { writeFile, mkdir } from "node:fs/promises";
+﻿export const dynamic = "force-dynamic";
+
+import { writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 import { AdminShell } from "@/components/admin-shell";
 import { Button } from "@/components/ui/button";

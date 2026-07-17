@@ -1,4 +1,6 @@
-﻿import Image from "next/image";
+﻿export const dynamic = "force-dynamic";
+
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Camera, Compass, Gem, Lightbulb, Megaphone, Navigation, Users } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
@@ -12,21 +14,24 @@ import { formatDate, logos } from "@/lib/utils";
 type Destination = { category: string; name: string; description: string; location: string; image: string; mapUrl?: string };
 
 async function getHomeData() {
-  const [profile, members, announcements, meetings, gallery, docs, transport, contact, settings] = await Promise.all([
-    prisma.organizationProfile.findFirst(),
-    prisma.member.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" }, take: 8 }),
-    prisma.announcement.findMany({ where: { isPublished: true }, orderBy: { publishedAt: "desc" }, take: 3 }),
-    prisma.meeting.findMany({ orderBy: { date: "asc" }, take: 3 }),
-    prisma.gallery.findMany({ orderBy: { createdAt: "desc" }, take: 6 }),
-    prisma.documentation.findMany({ orderBy: { createdAt: "desc" }, take: 4 }),
-    prisma.transportation.findMany({ orderBy: { createdAt: "desc" }, take: 4 }),
-    prisma.contact.findFirst(),
-    prisma.settings.findMany(),
-  ]);
-  const setting = Object.fromEntries(settings.map((s) => [s.key, s.value]));
-  return { profile, members, announcements, meetings, gallery, docs, transport, contact, setting, destinations: parseJson<Destination[]>(setting.destinations, []), partners: parseJson<string[]>(setting.partners, []) };
+  try {
+    const [profile, members, announcements, meetings, gallery, docs, transport, contact, settings] = await Promise.all([
+      prisma.organizationProfile.findFirst(),
+      prisma.member.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" }, take: 8 }),
+      prisma.announcement.findMany({ where: { isPublished: true }, orderBy: { publishedAt: "desc" }, take: 3 }),
+      prisma.meeting.findMany({ orderBy: { date: "asc" }, take: 3 }),
+      prisma.gallery.findMany({ orderBy: { createdAt: "desc" }, take: 6 }),
+      prisma.documentation.findMany({ orderBy: { createdAt: "desc" }, take: 4 }),
+      prisma.transportation.findMany({ orderBy: { createdAt: "desc" }, take: 4 }),
+      prisma.contact.findFirst(),
+      prisma.settings.findMany(),
+    ]);
+    const setting = Object.fromEntries(settings.map((s) => [s.key, s.value]));
+    return { profile, members, announcements, meetings, gallery, docs, transport, contact, setting, destinations: parseJson<Destination[]>(setting.destinations, []), partners: parseJson<string[]>(setting.partners, []) };
+  } catch {
+    return { profile: null, members: [], announcements: [], meetings: [], gallery: [], docs: [], transport: [], contact: null, setting: {}, destinations: [], partners: [] };
+  }
 }
-
 function parseJson<T>(value: string | undefined, fallback: T): T { try { return value ? JSON.parse(value) as T : fallback; } catch { return fallback; } }
 export default async function HomePage() {
   const { profile, members, announcements, meetings, gallery, transport, contact, setting, destinations, partners } = await getHomeData();

@@ -1,3 +1,5 @@
+﻿export const dynamic = "force-dynamic";
+
 import { CalendarDays, MapPin, Users } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
