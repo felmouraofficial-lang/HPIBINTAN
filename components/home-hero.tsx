@@ -12,6 +12,9 @@ export function HomeHero({ image }: { image: string }) {
   return (
     <section className="relative min-h-[860px] overflow-hidden bg-zinc-950 text-white md:min-h-screen">
       <Image src={src} alt="Pantai dan resort Pulau Bintan" fill priority sizes="100vw" className="object-cover cinematic-hero-still" onError={() => setSrc("/hero-bintan.jpg")} />
+      <video className="absolute inset-0 h-full w-full object-cover" autoPlay muted loop playsInline preload="metadata" poster={src} aria-label="Video cinematic Pulau Bintan">
+        <source src="/video-cinematic.mp4" type="video/mp4" />
+      </video>
       <div className="absolute inset-0 bg-[#0b2745]/40" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#173a58]/82 via-[#173a58]/50 to-[#173a58]/18" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#fffaf3] to-transparent" />
