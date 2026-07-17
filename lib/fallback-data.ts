@@ -226,7 +226,7 @@ export const fallbackDestinations = [
 ];
 
 export const fallbackSettings = {
-  hero_image: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Banyan_Tree_Bintan.jpg",
+  hero_image: "/head-background.jpg",
   map_image: "/peta-pulau-bintan.jpg",
   map_text:
     "Pulau Bintan berada pada jalur strategis pariwisata Kepulauan Riau. HPI Bintan mendukung layanan interpretasi destinasi untuk wilayah pesisir, kawasan resort, ekowisata, sejarah, dan budaya.",

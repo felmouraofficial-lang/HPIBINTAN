@@ -1,17 +1,29 @@
-﻿export const dynamic = "force-dynamic";
+export const dynamic = "force-dynamic";
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Camera, Compass, Gem, Lightbulb, Megaphone, Navigation, Users } from "lucide-react";
+import { ArrowRight, CalendarDays, Camera, Compass, Gem, Lightbulb, Navigation, Users } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { HomeHero } from "@/components/home-hero";
+import { HomeAgendaSection } from "@/components/home-agenda-section";
 import { Card } from "@/components/ui/card";
 import { OrganizationMotion } from "@/components/organization-motion";
 import { DestinationSection } from "@/components/destination-section";
 import { prisma } from "@/lib/prisma";
-import { formatDate, logos } from "@/lib/utils";
-import { fallbackAnnouncements, fallbackContact, fallbackDestinations, fallbackGallery, fallbackMeetings, fallbackMembers, fallbackPartners, fallbackProfile, fallbackSettings, fallbackTransportation } from "@/lib/fallback-data";
+import { logos } from "@/lib/utils";
+import {
+  fallbackAnnouncements,
+  fallbackContact,
+  fallbackDestinations,
+  fallbackGallery,
+  fallbackMeetings,
+  fallbackMembers,
+  fallbackPartners,
+  fallbackProfile,
+  fallbackSettings,
+  fallbackTransportation,
+} from "@/lib/fallback-data";
 
 type Destination = { category: string; name: string; description: string; location: string; image: string; mapUrl?: string };
 
@@ -33,7 +45,7 @@ async function getHomeData() {
       profile: profile ?? fallbackProfile,
       members: members.length ? members : fallbackMembers,
       announcements: announcements.length ? announcements : fallbackAnnouncements,
-      meetings: meetings.length ? meetings : fallbackMeetings,
+      meetings: meetings.length ? meetings.map((meeting) => ({ ...meeting, description: meeting.description ?? "" })) : fallbackMeetings,
       gallery: gallery.length ? gallery : fallbackGallery,
       docs,
       transport: transport.length ? transport : fallbackTransportation,
@@ -58,13 +70,125 @@ async function getHomeData() {
     };
   }
 }
-function parseJson<T>(value: string | undefined, fallback: T): T { try { return value ? JSON.parse(value) as T : fallback; } catch { return fallback; } }
-function parseArray<T>(value: string | undefined, fallback: T[]): T[] { const parsed = parseJson<T[]>(value, fallback); return parsed.length ? parsed : fallback; }
+
+function parseJson<T>(value: string | undefined, fallback: T): T {
+  try {
+    return value ? (JSON.parse(value) as T) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function parseArray<T>(value: string | undefined, fallback: T[]): T[] {
+  const parsed = parseJson<T[]>(value, fallback);
+  return parsed.length ? parsed : fallback;
+}
+
 export default async function HomePage() {
   const { profile, members, announcements, meetings, gallery, transport, contact, setting, destinations, partners } = await getHomeData();
-  const heroImage = ["/hero-bintan.jpg", "/head-background.jpg", "https://upload.wikimedia.org/wikipedia/commons/7/74/Banyan_Tree_Bintan.jpg", ""].includes(setting.hero_image ?? "") ? fallbackSettings.hero_image : setting.hero_image;
+  const heroImage = ["/hero-bintan.jpg", "https://upload.wikimedia.org/wikipedia/commons/7/74/Banyan_Tree_Bintan.jpg", ""].includes(setting.hero_image ?? "")
+    ? fallbackSettings.hero_image
+    : setting.hero_image;
 
-  return <><SiteHeader /><main className="overflow-hidden bg-[#fffaf3]"><HomeHero image={heroImage || fallbackSettings.hero_image} /><section className="bg-white py-20"><div className="container grid gap-10 lg:grid-cols-[.9fr_1.1fr]"><div><SectionTitle eyebrow="Tentang Organisasi" title="Mengawal profesionalisme pramuwisata Bintan." /><p className="mt-6 text-lg leading-9 text-zinc-600">{profile?.history}</p><Link href="/tentang-kami" className="mt-8 inline-flex rounded-full bg-[#8a4719] px-7 py-4 font-black text-white">Selengkapnya</Link></div><div className="grid gap-5">{([{ title: "Visi", text: profile?.vision, Icon: Compass, gradient: "from-sky-500 to-cyan-400" }, { title: "Misi", text: profile?.mission, Icon: Lightbulb, gradient: "from-amber-500 to-orange-400" }, { title: "Nilai", text: "Profesionalisme, integritas, pelayanan prima, kolaborasi, dan pengembangan berkelanjutan.", Icon: Gem, gradient: "from-emerald-500 to-teal-400" }]).map(({ title, text, Icon, gradient }) => <Card key={title} className="group flex gap-5 p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(41,20,8,.12)]"><div className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-soft transition duration-300 group-hover:scale-110`}><Icon className="h-8 w-8" /></div><div><h3 className="text-2xl font-black">{title}</h3><p className="mt-2 leading-7 text-zinc-600">{text}</p></div></Card>)}</div></div></section><section className="bg-white py-16"><div className="container"><SectionTitle center eyebrow="Struktur Organisasi" title="Pengurus Inti HPI Pulau Bintan" subtitle="Sinergi profesional untuk pariwisata unggul" /><OrganizationMotion members={members} /></div></section><DestinationSection destinations={destinations} mapImage={setting.map_image ?? "/peta-pulau-bintan.jpg"} mapText={setting.map_text} /><section className="bg-white py-20"><div className="container grid gap-10 lg:grid-cols-[.75fr_1.25fr]"><div><SectionTitle eyebrow="Agenda & Info" title="Kegiatan dan pengumuman terbaru." />{announcements.map((a) => <div key={a.id} className="mt-6 border-b border-zinc-200 pb-5"><Megaphone className="h-5 w-5 text-primary" /><h3 className="mt-3 text-xl font-black">{a.title}</h3><p className="mt-2 text-sm leading-6 text-zinc-600">{a.content}</p></div>)}</div><div className="grid gap-5 md:grid-cols-3">{meetings.map((m) => <Card key={m.id}><CalendarDays className="text-primary" /><p className="mt-5 text-sm font-bold text-zinc-500">{formatDate(m.date)} - {m.time}</p><h3 className="mt-3 text-xl font-black">{m.title}</h3><p className="mt-2 text-sm font-bold text-primary">{m.location}</p></Card>)}</div></div></section><section className="py-20"><div className="container"><SectionTitle center eyebrow="Galeri" title="Dokumentasi Kegiatan" /><div className="mt-10 grid gap-5 md:grid-cols-3">{gallery.map((g) => <div key={g.id} className="group overflow-hidden rounded-[2rem] bg-white shadow-soft"><Image src={g.fileUrl} alt={g.title} width={700} height={460} className="h-64 w-full object-cover transition duration-500 group-hover:scale-110" /><div className="p-5"><Camera className="h-5 w-5 text-primary" /><h3 className="mt-3 font-black">{g.title}</h3></div></div>)}</div></div></section><section className="bg-white py-20"><div className="container"><SectionTitle center eyebrow="Transportasi" title="Layanan Transportasi Mitra" /><div className="mt-10 grid gap-5 md:grid-cols-4">{transport.map((t) => <Card key={t.id} className="overflow-hidden p-0"><Image src={t.photo || logos[1]} alt={t.name} width={700} height={430} className="h-44 w-full object-cover" /><div className="p-5"><span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-black text-yellow-800">{t.status === "AVAILABLE" ? "Tersedia" : "Tidak tersedia"}</span><h3 className="mt-4 font-black">{t.name}</h3><p className="mt-2 text-sm text-zinc-500">{t.vehicleType} - {t.capacity} penumpang</p></div></Card>)}</div></div></section><section className="bg-zinc-950 py-20 text-white"><div className="container grid gap-10 lg:grid-cols-[.7fr_1.3fr]"><SectionTitle inverse eyebrow="Kolaborasi" title="Ekosistem wisata Bintan yang saling menguatkan." /><div className="grid grid-cols-2 gap-4 md:grid-cols-3">{[...partners, ...logos].map((partner, index) => <div key={`${partner}-${index}`} className="grid h-24 place-items-center rounded-3xl border border-white/10 bg-white/10 p-4 text-center font-black text-zinc-200 grayscale transition duration-300 hover:grayscale-0 hover:bg-white/16">{String(partner).startsWith("/") ? <Image src={String(partner)} alt="Logo partner" width={70} height={70} className="object-contain" /> : partner}</div>)}</div></div></section><section className="bg-white py-16"><div className="container grid gap-5 md:grid-cols-2"><div><SectionTitle eyebrow="Absensi Staff" title="Tools absensi harian dan rapat." subtitle="Akses cepat untuk staff melakukan absensi tanpa masuk dashboard admin." /></div><div className="grid gap-4 sm:grid-cols-2"><Link href="/absensi-harian" className="rounded-3xl border border-zinc-200 bg-[#fff8ed] p-6 shadow-soft transition hover:-translate-y-1"><CalendarDays className="h-8 w-8 text-primary" /><h3 className="mt-5 text-xl font-black text-[#2f2119]">Absensi Harian</h3><p className="mt-2 text-sm leading-6 text-zinc-600">Check in/check out staff dengan upload foto bukti kehadiran.</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-primary">Buka Form <ArrowRight className="h-4 w-4" /></span></Link><Link href="/absensi-rapat" className="rounded-3xl border border-zinc-200 bg-[#fff8ed] p-6 shadow-soft transition hover:-translate-y-1"><Users className="h-8 w-8 text-primary" /><h3 className="mt-5 text-xl font-black text-[#2f2119]">Absensi Rapat</h3><p className="mt-2 text-sm leading-6 text-zinc-600">Staff mengisi kehadiran sesuai jadwal rapat yang dibuat admin.</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-primary">Buka Form <ArrowRight className="h-4 w-4" /></span></Link></div></div></section><section className="bg-primary py-16 text-white"><div className="container grid gap-8 lg:grid-cols-[1fr_auto]"><div><SectionTitle inverse eyebrow="Kontak" title="Guide booking dan informasi resmi." /><p className="mt-5 flex items-center gap-2 text-lg font-bold"><Navigation className="h-5 w-5" />{contact?.address}</p><p className="mt-2 text-red-50">{contact?.email} - {contact?.whatsapp}</p></div><Link href="/kontak" className="inline-flex h-14 items-center justify-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-[.18em] text-primary">Hubungi Sekretariat</Link></div></section></main><SiteFooter /></>;
+  return (
+    <>
+      <SiteHeader />
+      <main className="overflow-hidden bg-[#fffaf3]">
+        <HomeHero image={heroImage || fallbackSettings.hero_image} />
+
+        <section className="bg-white py-20">
+          <div className="container grid gap-10 lg:grid-cols-[.9fr_1.1fr]">
+            <div>
+              <SectionTitle eyebrow="Tentang Organisasi" title="Mengawal profesionalisme pramuwisata Bintan." />
+              <p className="mt-6 text-lg leading-9 text-zinc-600">{profile.history}</p>
+              <Link href="/tentang-kami" className="mt-8 inline-flex rounded-full bg-[#8a4719] px-7 py-4 font-black text-white">Selengkapnya</Link>
+            </div>
+            <div className="grid gap-5">
+              {[
+                { title: "Visi", text: profile.vision, Icon: Compass, gradient: "from-sky-500 to-cyan-400" },
+                { title: "Misi", text: profile.mission, Icon: Lightbulb, gradient: "from-amber-500 to-orange-400" },
+                { title: "Nilai", text: "Profesionalisme, integritas, pelayanan prima, kolaborasi, dan pengembangan berkelanjutan.", Icon: Gem, gradient: "from-emerald-500 to-teal-400" },
+              ].map(({ title, text, Icon, gradient }) => (
+                <Card key={title} className="group flex gap-5 p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(41,20,8,.12)]">
+                  <div className={`grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-soft transition duration-300 group-hover:scale-110`}><Icon className="h-8 w-8" /></div>
+                  <div><h3 className="text-2xl font-black">{title}</h3><p className="mt-2 leading-7 text-zinc-600">{text}</p></div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white py-16">
+          <div className="container">
+            <SectionTitle center eyebrow="Struktur Organisasi" title="Pengurus Inti HPI Pulau Bintan" subtitle="Sinergi profesional untuk pariwisata unggul" />
+            <OrganizationMotion members={members} />
+          </div>
+        </section>
+
+        <DestinationSection destinations={destinations} mapImage={setting.map_image ?? "/peta-pulau-bintan.jpg"} mapText={setting.map_text} />
+        <HomeAgendaSection announcements={announcements} meetings={meetings} />
+
+        <section className="py-20">
+          <div className="container">
+            <SectionTitle center eyebrow="Galeri" title="Dokumentasi Kegiatan" />
+            <div className="mt-10 grid gap-5 md:grid-cols-3">
+              {gallery.map((g) => (
+                <div key={g.id} className="group overflow-hidden rounded-[2rem] bg-white shadow-soft">
+                  <Image src={g.fileUrl} alt={g.title} width={700} height={460} className="h-64 w-full object-cover transition duration-500 group-hover:scale-110" />
+                  <div className="p-5"><Camera className="h-5 w-5 text-primary" /><h3 className="mt-3 font-black">{g.title}</h3></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white py-20">
+          <div className="container">
+            <SectionTitle center eyebrow="Transportasi" title="Layanan Transportasi Mitra" />
+            <div className="mt-10 grid gap-5 md:grid-cols-4">
+              {transport.map((t) => (
+                <Card key={t.id} className="overflow-hidden p-0">
+                  <Image src={t.photo || logos[1]} alt={t.name} width={700} height={430} className="h-44 w-full object-cover" />
+                  <div className="p-5"><span className="rounded-full bg-yellow-100 px-3 py-1 text-xs font-black text-yellow-800">{t.status === "AVAILABLE" ? "Tersedia" : "Tidak tersedia"}</span><h3 className="mt-4 font-black">{t.name}</h3><p className="mt-2 text-sm text-zinc-500">{t.vehicleType} - {t.capacity} penumpang</p></div>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-zinc-950 py-20 text-white">
+          <div className="container grid gap-10 lg:grid-cols-[.7fr_1.3fr]">
+            <SectionTitle inverse eyebrow="Kolaborasi" title="Ekosistem wisata Bintan yang saling menguatkan." />
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+              {[...partners, ...logos].map((partner, index) => (
+                <div key={`${partner}-${index}`} className="grid h-24 place-items-center rounded-3xl border border-white/10 bg-white/10 p-4 text-center font-black text-zinc-200 grayscale transition duration-300 hover:bg-white/16 hover:grayscale-0">
+                  {String(partner).startsWith("/") ? <Image src={String(partner)} alt="Logo partner" width={70} height={70} className="object-contain" /> : partner}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-white py-16">
+          <div className="container grid gap-5 md:grid-cols-2">
+            <div><SectionTitle eyebrow="Absensi Staff" title="Tools absensi harian dan rapat." subtitle="Akses cepat untuk staff melakukan absensi tanpa masuk dashboard admin." /></div>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <Link href="/absensi-harian" className="rounded-3xl border border-zinc-200 bg-[#fff8ed] p-6 shadow-soft transition hover:-translate-y-1"><CalendarDays className="h-8 w-8 text-primary" /><h3 className="mt-5 text-xl font-black text-[#2f2119]">Absensi Harian</h3><p className="mt-2 text-sm leading-6 text-zinc-600">Check in/check out staff dengan upload foto bukti kehadiran.</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-primary">Buka Form <ArrowRight className="h-4 w-4" /></span></Link>
+              <Link href="/absensi-rapat" className="rounded-3xl border border-zinc-200 bg-[#fff8ed] p-6 shadow-soft transition hover:-translate-y-1"><Users className="h-8 w-8 text-primary" /><h3 className="mt-5 text-xl font-black text-[#2f2119]">Absensi Rapat</h3><p className="mt-2 text-sm leading-6 text-zinc-600">Staff mengisi kehadiran sesuai jadwal rapat yang dibuat admin.</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-primary">Buka Form <ArrowRight className="h-4 w-4" /></span></Link>
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-primary py-16 text-white">
+          <div className="container grid gap-8 lg:grid-cols-[1fr_auto]">
+            <div><SectionTitle inverse eyebrow="Kontak" title="Guide booking dan informasi resmi." /><p className="mt-5 flex items-center gap-2 text-lg font-bold"><Navigation className="h-5 w-5" />{contact.address}</p><p className="mt-2 text-red-50">{contact.email} - {contact.whatsapp}</p></div>
+            <Link href="/kontak" className="inline-flex h-14 items-center justify-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-[.18em] text-primary">Hubungi Sekretariat</Link>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
+    </>
+  );
 }
 
 function SectionTitle({ eyebrow, title, subtitle, inverse = false, center = false }: { eyebrow: string; title: string; subtitle?: string; inverse?: boolean; center?: boolean }) {
