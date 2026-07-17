@@ -43,21 +43,21 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="fixed left-0 right-0 top-4 z-50 text-white transition duration-500">
-      <div className={`container flex h-[76px] items-center justify-between gap-4 rounded-[2rem] px-4 transition duration-500 ${solid ? "bg-white/86 text-zinc-950 shadow-[0_18px_70px_rgba(15,23,42,.14)] ring-1 ring-black/5 backdrop-blur-2xl dark:bg-zinc-950/82 dark:text-white dark:ring-white/10" : "bg-white/12 shadow-[0_18px_70px_rgba(0,0,0,.16)] ring-1 ring-white/18 backdrop-blur-2xl"}`}>
+    <header className="fixed left-0 right-0 top-3 z-50 text-white transition duration-500 md:top-4">
+      <div className={`container flex h-[60px] items-center justify-between gap-3 rounded-[1.75rem] px-4 transition duration-500 md:h-[68px] md:rounded-[2rem] ${solid ? "bg-white/86 text-zinc-950 shadow-[0_18px_70px_rgba(15,23,42,.14)] ring-1 ring-black/5 backdrop-blur-2xl dark:bg-zinc-950/82 dark:text-white dark:ring-white/10" : "bg-white/14 shadow-[0_18px_70px_rgba(0,0,0,.14)] ring-1 ring-white/18 backdrop-blur-2xl"}`}>
         <Link href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="grid h-14 w-24 shrink-0 place-items-center transition">
-            <Image src={logos[0]} alt="Logo HPI Bintan" width={104} height={58} className="h-auto max-h-14 w-full object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,.26)]" priority />
+          <span className="grid h-12 w-24 shrink-0 place-items-center transition md:h-14">
+            <Image src={logos[0]} alt="Logo HPI Bintan" width={100} height={54} className="h-auto max-h-12 w-full object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,.26)] md:max-h-14" priority />
           </span>
           <span className="hidden min-w-0 sm:block">
-            <span className="block whitespace-nowrap text-base font-black leading-tight tracking-wide xl:text-lg">HPI Pulau Bintan</span>
-            <span className={`mt-0.5 block text-[10px] font-black uppercase tracking-[.24em] ${solid ? "text-zinc-500 dark:text-white/62" : "text-white/78"}`}>Kepulauan Riau</span>
+            <span className="block whitespace-nowrap text-sm font-black leading-tight tracking-wide xl:text-base">HPI Pulau Bintan</span>
+            <span className={`mt-0.5 block text-[9px] font-black uppercase tracking-[.22em] ${solid ? "text-zinc-500 dark:text-white/62" : "text-white/78"}`}>Kepulauan Riau</span>
           </span>
         </Link>
 
-        <nav className={`hidden items-center gap-1 rounded-full p-1 text-sm font-black lg:flex ${solid ? "bg-zinc-100/80 dark:bg-white/8" : "bg-white/10"}`}>
+        <nav className={`hidden items-center gap-1 rounded-full p-1 text-[13px] font-black lg:flex ${solid ? "bg-zinc-100/80 dark:bg-white/8" : "bg-white/10"}`}>
           {nav.map(([label, href]) => (
-            <Link key={href} href={href} className={`rounded-full px-4 py-2 transition duration-300 hover:-translate-y-0.5 ${label === "Beranda" ? "bg-white/22 shadow-sm" : ""} ${solid ? "text-zinc-700 hover:bg-white hover:text-primary dark:text-white/82 dark:hover:bg-white/12" : "text-white/92 hover:bg-white/16 hover:text-white"}`}>
+            <Link key={href} href={href} className={`rounded-full px-3.5 py-2 transition duration-300 hover:-translate-y-0.5 ${label === "Beranda" ? "bg-white/22 shadow-sm" : ""} ${solid ? "text-zinc-700 hover:bg-white hover:text-primary dark:text-white/82 dark:hover:bg-white/12" : "text-white/92 hover:bg-white/16 hover:text-white"}`}>
               {label}
             </Link>
           ))}
@@ -67,7 +67,7 @@ export function SiteHeader() {
           <button type="button" onClick={toggleTheme} className={`grid h-11 w-11 place-items-center rounded-full transition ${solid ? "bg-zinc-100 text-zinc-800 hover:bg-zinc-200 dark:bg-white/10 dark:text-white" : "bg-white/12 text-white hover:bg-white/20"}`} aria-label="Ganti mode tampilan">
             {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
-          <Link href="/kontak" className="inline-flex items-center gap-2 rounded-full bg-[#ff9900] px-5 py-3 text-xs font-black uppercase tracking-[.12em] text-white shadow-[0_18px_45px_rgba(255,153,0,.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-primary">
+          <Link href="/kontak" className="inline-flex items-center gap-2 rounded-full bg-[#ff9900] px-5 py-3 text-xs font-black uppercase tracking-[.12em] text-white shadow-[0_18px_45px_rgba(255,153,0,.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-primary xl:px-6">
             <CalendarCheck className="h-4 w-4" />Guide Booking
           </Link>
         </div>

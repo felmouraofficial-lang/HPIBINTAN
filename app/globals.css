@@ -5,7 +5,7 @@
 :root { --background: 0 0% 100%; --foreground: 222 47% 11%; --border: 214 32% 91%; }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: radial-gradient(circle at 12% 8%, rgba(255,153,0,.08), transparent 28%), linear-gradient(180deg, #fffdf8 0%, #fff7ea 100%); color: #151515; transition: background .35s ease, color .35s ease; }
+body { margin: 0; background: radial-gradient(circle at 12% 8%, rgba(255,153,0,.08), transparent 28%), radial-gradient(circle at 86% 18%, rgba(138,71,25,.06), transparent 24%), linear-gradient(180deg, #fffdf8 0%, #fff7ea 100%); color: #151515; transition: background .35s ease, color .35s ease; }
 .dark body { background: radial-gradient(circle at 12% 8%, rgba(255,153,0,.10), transparent 28%), linear-gradient(180deg, #070b12 0%, #12100d 100%); color: #f8fafc; }
 a { text-decoration: none; }
 .container { width: min(1180px, calc(100% - 32px)); margin-inline: auto; }
@@ -14,7 +14,9 @@ a { text-decoration: none; }
 .text-balance { text-wrap: balance; }
 
 main section { position: relative; }
-main section::before { content: ""; pointer-events: none; position: absolute; inset: 0; background: radial-gradient(circle at 85% 12%, rgba(255,153,0,.055), transparent 24%); opacity: .8; }
+main section::before { content: ""; pointer-events: none; position: absolute; inset: 0; background: radial-gradient(circle at 85% 12%, rgba(255,153,0,.06), transparent 24%), radial-gradient(circle at 8% 88%, rgba(138,71,25,.045), transparent 26%); opacity: .9; }
+main section::after { content: ""; pointer-events: none; position: absolute; inset: 0; opacity: .13; background-image: radial-gradient(rgba(138,71,25,.28) 1px, transparent 1px); background-size: 28px 28px; mask-image: linear-gradient(90deg, transparent, black 18%, black 82%, transparent); }
+main section > * { position: relative; z-index: 1; }
 .dark main { background: #0b0f17; }
 .dark main section { background-color: #0b0f17 !important; color: #f8fafc; }
 .dark h1, .dark h2, .dark h3 { color: #fff7ed !important; }
@@ -22,6 +24,7 @@ main section::before { content: ""; pointer-events: none; position: absolute; in
 .dark .bg-white { background-color: #101722 !important; }
 .dark .text-zinc-600, .dark .text-zinc-500, .dark .text-\[\#8f765f\] { color: rgba(255,255,255,.68) !important; }
 .dark .border-zinc-200, .dark .border-zinc-100 { border-color: rgba(255,255,255,.12) !important; }
+.dark main section::after { opacity: .08; background-image: radial-gradient(rgba(255,255,255,.32) 1px, transparent 1px); }
 
 @keyframes cinematicZoom {
   0% { transform: scale(1); }
