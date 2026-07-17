@@ -34,7 +34,7 @@ export function HomeHero({ image }: { image: string }) {
           </motion.div>
           <div className="mt-12 h-px max-w-2xl bg-white/24" />
           <div className="mt-8 grid max-w-2xl grid-cols-3 gap-5">
-            {[[Users, "100+", "Anggota Aktif"], [CalendarDays, "60+", "Kegiatan/Tahun"], [Handshake, "46+", "Mitra Kerja"]].map(([Icon, value, label]) => <div key={label as string} className="min-w-0"><Icon className="h-8 w-8 text-[#ff9900]" /><div className="mt-2 text-4xl font-black md:text-5xl">{value as string}</div><p className="mt-1 text-[11px] font-black uppercase tracking-[.16em] text-white/72 md:text-xs">{label as string}</p></div>)}
+            {[[Users, "50+", "Anggota Aktif"], [CalendarDays, "60+", "Kegiatan/Tahun"], [Handshake, "46+", "Mitra Kerja"]].map(([Icon, value, label]) => <div key={label as string} className="min-w-0 rounded-3xl border border-white/14 bg-white/10 p-4 backdrop-blur-md"><Icon className="h-8 w-8 text-[#ff9900]" /><div className="mt-2 text-4xl font-black md:text-5xl">{value as string}</div><p className="mt-1 text-[11px] font-black uppercase tracking-[.16em] text-white/76 md:text-xs">{label as string}</p></div>)}
           </div>
         </motion.div>
       </div>

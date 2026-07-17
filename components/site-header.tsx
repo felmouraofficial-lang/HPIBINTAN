@@ -28,7 +28,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className={`fixed left-0 right-0 top-0 z-50 transition duration-500 ${solid ? "border-b border-zinc-200/70 bg-white/88 text-zinc-950 shadow-[0_18px_60px_rgba(15,23,42,.10)] backdrop-blur-2xl" : "bg-transparent text-white"}`}>
+    <header className={`fixed left-0 right-0 top-0 z-50 transition duration-500 ${solid ? "border-b border-zinc-200/70 bg-white/88 text-zinc-950 shadow-[0_18px_60px_rgba(15,23,42,.10)] backdrop-blur-2xl" : "border-b border-white/12 bg-white/10 text-white shadow-[0_18px_50px_rgba(0,0,0,.06)] backdrop-blur-xl"}`}>
       <div className="container flex h-24 items-center justify-between gap-4">
         <Link href="/" className="flex min-w-0 items-center gap-3" onClick={() => setOpen(false)}>
           <span className="grid h-16 w-28 shrink-0 place-items-center transition">
@@ -36,7 +36,7 @@ export function SiteHeader() {
           </span>
           <span className="hidden min-w-0 sm:block">
             <span className="block whitespace-nowrap text-base font-black leading-tight tracking-wide xl:text-lg">HPI Pulau Bintan</span>
-            <span className={`mt-0.5 block text-[10px] font-black uppercase tracking-[.24em] ${solid ? "text-zinc-500" : "text-white/72"}`}>Kepulauan Riau</span>
+            <span className={`mt-0.5 block text-[10px] font-black uppercase tracking-[.24em] ${solid ? "text-zinc-500" : "text-white/78"}`}>Kepulauan Riau</span>
           </span>
         </Link>
 

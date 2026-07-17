@@ -98,10 +98,10 @@ export const fallbackDocuments = ["AD/ART HPI Bintan", "Surat Keputusan Kepengur
 );
 
 export const fallbackTransportation = [
-  ["Toyota Hiace Premio", "Van Premium", 12, "AVAILABLE", "/logos/bintan-tour-guide.png"],
-  ["Toyota Hiace Commuter", "Van Wisata", 14, "AVAILABLE", "/logos/hpi-logo-2.jpeg"],
-  ["Toyota Innova Zenix", "MPV", 6, "AVAILABLE", "/logos/hpi-logo-3.jpeg"],
-  ["Bus Pariwisata", "Bus", 32, "AVAILABLE", "/hero-bintan.jpg"],
+  ["Toyota Hiace Premio", "Van Premium", 12, "AVAILABLE", "/transport-hiace-premium.jpg"],
+  ["Toyota Hiace Commuter", "Van Wisata", 14, "AVAILABLE", "/transport-hiace-standar.jpg"],
+  ["Toyota Innova Zenix", "MPV", 6, "AVAILABLE", "/transport-toyota-zenix.jpg"],
+  ["Bus Pariwisata", "Bus", 32, "AVAILABLE", "/transport-bus-pariwisata.jpg"],
 ].map(([name, vehicleType, capacity, status, photo], index) => ({
   id: `fallback-transport-${index + 1}`,
   name: String(name),
@@ -154,7 +154,7 @@ export const fallbackDestinations = [
     name: "Pantai Trikora",
     description: "Pantai alami dengan ombak tenang. Banyak penginapan dan tempat makan seafood. Cocok untuk snorkeling dan liburan keluarga.",
     location: "Trikora, Bintan Timur",
-    image: "/uploads/1784221305257-f652719a-d758-47ae-ae59-a9beca92924e.jpg",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Pantai+Trikora+Bintan",
   },
   {
@@ -162,7 +162,7 @@ export const fallbackDestinations = [
     name: "Pantai Sakera",
     description: "Pantai yang lebih sepi dengan pemandangan batu granit dan air laut jernih.",
     location: "Tanjung Uban, Bintan",
-    image: "/uploads/1784221305260-d2231c1f-940e-449c-b6dc-79853059a488.jpg",
+    image: "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Pantai+Sakera+Bintan",
   },
   {
@@ -170,7 +170,7 @@ export const fallbackDestinations = [
     name: "Treasure Bay Bintan",
     description: "Crystal Lagoon terbesar di Asia Tenggara. Wisatawan bisa bermain kayak, paddle board, ATV, hingga water sport.",
     location: "Lagoi, Bintan",
-    image: "/head-background.jpg",
+    image: "https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Treasure+Bay+Bintan",
   },
   {
@@ -178,7 +178,7 @@ export const fallbackDestinations = [
     name: "Gurun Pasir Busung",
     description: "Bekas tambang yang berubah menjadi bukit pasir dan menjadi spot foto favorit wisatawan.",
     location: "Busung, Bintan",
-    image: "/uploads/1784221461527-66d2964b-c108-46b0-97b9-b04edec00383.jpg",
+    image: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Gurun+Pasir+Busung+Bintan",
   },
   {
@@ -186,7 +186,7 @@ export const fallbackDestinations = [
     name: "Danau Biru Busung",
     description: "Danau berwarna biru yang berada di samping Gurun Pasir. Pemandangannya sangat unik dan fotogenik.",
     location: "Busung, Bintan",
-    image: "/uploads/1784221461556-45d0d916-4095-4a31-b7f1-8a639e67d2d9.jpg",
+    image: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Danau+Biru+Busung+Bintan",
   },
   {
@@ -194,7 +194,7 @@ export const fallbackDestinations = [
     name: "Bintan Mangrove",
     description: "Susur sungai menggunakan perahu. Pengunjung bisa melihat monyet, burung, hingga biawak di kawasan mangrove.",
     location: "Sebong Lagoi, Bintan",
-    image: "/peta-pulau-bintan.jpg",
+    image: "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Bintan+Mangrove",
   },
   {
@@ -202,7 +202,7 @@ export const fallbackDestinations = [
     name: "Safari Lagoi & Eco Farm",
     description: "Tempat melihat berbagai satwa dan aktivitas edukasi alam. Cocok untuk liburan keluarga.",
     location: "Lagoi, Bintan",
-    image: "/head-background.jpg",
+    image: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Safari+Lagoi+Eco+Farm+Bintan",
   },
   {
@@ -210,7 +210,7 @@ export const fallbackDestinations = [
     name: "Pulau Penyengat",
     description: "Masjid Sultan Riau yang terkenal, pusat sejarah Kesultanan Riau-Lingga, dan banyak bangunan peninggalan kerajaan.",
     location: "Tanjungpinang",
-    image: "/uploads/1784221305257-f652719a-d758-47ae-ae59-a9beca92924e.jpg",
+    image: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Pulau+Penyengat",
   },
   {
@@ -218,7 +218,7 @@ export const fallbackDestinations = [
     name: "Vihara Ksitigarbha Bodhisattva",
     description: "Dikenal sebagai Vihara 500 Lohan dengan ratusan patung yang memiliki ekspresi berbeda.",
     location: "Tanjungpinang",
-    image: "/uploads/1784221305260-d2231c1f-940e-449c-b6dc-79853059a488.jpg",
+    image: "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Vihara+Ksitigarbha+Bodhisattva+Tanjungpinang",
   },
   {
@@ -226,7 +226,7 @@ export const fallbackDestinations = [
     name: "Museum Sultan Sulaiman Badrul Alamsyah",
     description: "Museum untuk mengenal sejarah dan budaya Melayu melalui koleksi, arsip, dan narasi kota lama.",
     location: "Tanjungpinang",
-    image: "/peta-pulau-bintan.jpg",
+    image: "https://images.unsplash.com/photo-1566127992631-137a642a90f4?auto=format&fit=crop&w=1200&q=85",
     mapUrl: "https://www.google.com/maps/search/?api=1&query=Museum+Sultan+Sulaiman+Badrul+Alamsyah",
   },
 ];

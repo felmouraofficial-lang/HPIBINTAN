@@ -24,3 +24,14 @@ a { text-decoration: none; }
   50% { transform: translateY(-5px) scale(1.08); box-shadow: 0 0 0 16px rgba(215,25,32,.05); }
 }
 .marker-pulse { animation: markerPulse 2.4s ease-in-out infinite; }
+.perspective-1000 { perspective: 1000px; }
+.preserve-3d { transform-style: preserve-3d; }
+.backface-hidden { backface-visibility: hidden; }
+.rotate-y-180 { transform: rotateY(180deg); }
+.group:hover .group-hover\:rotate-y-180 { transform: rotateY(180deg); }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 34s linear infinite; }

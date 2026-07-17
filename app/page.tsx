@@ -2,11 +2,13 @@ export const dynamic = "force-dynamic";
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, CalendarDays, Camera, Compass, Gem, Lightbulb, Navigation, Users } from "lucide-react";
+import { Compass, Gem, Lightbulb, Navigation } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { HomeHero } from "@/components/home-hero";
 import { HomeAgendaSection } from "@/components/home-agenda-section";
+import { HomeGalleryGrid } from "@/components/home-gallery-grid";
+import { PartnerMarquee } from "@/components/partner-marquee";
 import { Card } from "@/components/ui/card";
 import { OrganizationMotion } from "@/components/organization-motion";
 import { DestinationSection } from "@/components/destination-section";
@@ -134,14 +136,7 @@ export default async function HomePage() {
         <section className="py-20">
           <div className="container">
             <SectionTitle center eyebrow="Galeri" title="Dokumentasi Kegiatan" />
-            <div className="mt-10 grid gap-5 md:grid-cols-3">
-              {gallery.map((g) => (
-                <div key={g.id} className="group overflow-hidden rounded-[2rem] bg-white shadow-soft">
-                  <Image src={g.fileUrl} alt={g.title} width={700} height={460} className="h-64 w-full object-cover transition duration-500 group-hover:scale-110" />
-                  <div className="p-5"><Camera className="h-5 w-5 text-primary" /><h3 className="mt-3 font-black">{g.title}</h3></div>
-                </div>
-              ))}
-            </div>
+            <HomeGalleryGrid items={gallery} />
           </div>
         </section>
 
@@ -159,28 +154,7 @@ export default async function HomePage() {
           </div>
         </section>
 
-        <section className="bg-zinc-950 py-20 text-white">
-          <div className="container grid gap-10 lg:grid-cols-[.7fr_1.3fr]">
-            <SectionTitle inverse eyebrow="Kolaborasi" title="Ekosistem wisata Bintan yang saling menguatkan." />
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
-              {[...partners, ...logos].map((partner, index) => (
-                <div key={`${partner}-${index}`} className="grid h-24 place-items-center rounded-3xl border border-white/10 bg-white/10 p-4 text-center font-black text-zinc-200 grayscale transition duration-300 hover:bg-white/16 hover:grayscale-0">
-                  {String(partner).startsWith("/") ? <Image src={String(partner)} alt="Logo partner" width={70} height={70} className="object-contain" /> : partner}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="bg-white py-16">
-          <div className="container grid gap-5 md:grid-cols-2">
-            <div><SectionTitle eyebrow="Absensi Staff" title="Tools absensi harian dan rapat." subtitle="Akses cepat untuk staff melakukan absensi tanpa masuk dashboard admin." /></div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Link href="/absensi-harian" className="rounded-3xl border border-zinc-200 bg-[#fff8ed] p-6 shadow-soft transition hover:-translate-y-1"><CalendarDays className="h-8 w-8 text-primary" /><h3 className="mt-5 text-xl font-black text-[#2f2119]">Absensi Harian</h3><p className="mt-2 text-sm leading-6 text-zinc-600">Check in/check out staff dengan upload foto bukti kehadiran.</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-primary">Buka Form <ArrowRight className="h-4 w-4" /></span></Link>
-              <Link href="/absensi-rapat" className="rounded-3xl border border-zinc-200 bg-[#fff8ed] p-6 shadow-soft transition hover:-translate-y-1"><Users className="h-8 w-8 text-primary" /><h3 className="mt-5 text-xl font-black text-[#2f2119]">Absensi Rapat</h3><p className="mt-2 text-sm leading-6 text-zinc-600">Staff mengisi kehadiran sesuai jadwal rapat yang dibuat admin.</p><span className="mt-5 inline-flex items-center gap-2 text-sm font-black text-primary">Buka Form <ArrowRight className="h-4 w-4" /></span></Link>
-            </div>
-          </div>
-        </section>
+        <PartnerMarquee partners={partners} />
 
         <section className="bg-primary py-16 text-white">
           <div className="container grid gap-8 lg:grid-cols-[1fr_auto]">
