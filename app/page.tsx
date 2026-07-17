@@ -10,6 +10,7 @@ import { OrganizationMotion } from "@/components/organization-motion";
 import { DestinationSection } from "@/components/destination-section";
 import { prisma } from "@/lib/prisma";
 import { formatDate, logos } from "@/lib/utils";
+import { fallbackAnnouncements, fallbackContact, fallbackDestinations, fallbackGallery, fallbackMeetings, fallbackMembers, fallbackPartners, fallbackProfile, fallbackSettings, fallbackTransportation } from "@/lib/fallback-data";
 
 type Destination = { category: string; name: string; description: string; location: string; image: string; mapUrl?: string };
 
@@ -27,9 +28,33 @@ async function getHomeData() {
       prisma.settings.findMany(),
     ]);
     const setting = Object.fromEntries(settings.map((s) => [s.key, s.value]));
-    return { profile, members, announcements, meetings, gallery, docs, transport, contact, setting, destinations: parseJson<Destination[]>(setting.destinations, []), partners: parseJson<string[]>(setting.partners, []) };
+    return {
+      profile: profile ?? fallbackProfile,
+      members: members.length ? members : fallbackMembers,
+      announcements: announcements.length ? announcements : fallbackAnnouncements,
+      meetings: meetings.length ? meetings : fallbackMeetings,
+      gallery: gallery.length ? gallery : fallbackGallery,
+      docs,
+      transport: transport.length ? transport : fallbackTransportation,
+      contact: contact ?? fallbackContact,
+      setting: { ...fallbackSettings, ...setting },
+      destinations: parseJson<Destination[]>(setting.destinations, fallbackDestinations),
+      partners: parseJson<string[]>(setting.partners, fallbackPartners),
+    };
   } catch {
-    return { profile: null, members: [], announcements: [], meetings: [], gallery: [], docs: [], transport: [], contact: null, setting: {}, destinations: [], partners: [] };
+    return {
+      profile: fallbackProfile,
+      members: fallbackMembers,
+      announcements: fallbackAnnouncements,
+      meetings: fallbackMeetings,
+      gallery: fallbackGallery,
+      docs: [],
+      transport: fallbackTransportation,
+      contact: fallbackContact,
+      setting: fallbackSettings,
+      destinations: fallbackDestinations,
+      partners: fallbackPartners,
+    };
   }
 }
 function parseJson<T>(value: string | undefined, fallback: T): T { try { return value ? JSON.parse(value) as T : fallback; } catch { return fallback; } }
