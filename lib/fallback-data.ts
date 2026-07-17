@@ -15,23 +15,23 @@ export const fallbackProfile = {
 
 export const fallbackContact = {
   id: "main",
-  address: "Kabupaten Bintan, Kepulauan Riau, Indonesia",
+  address: "Jl. Langsat RT.001 / RW.001, Desa Sebong Lagoi, Kec. Teluk Sebong, Kab. Bintan.",
   email: "info@hpibintan.org",
-  whatsapp: "+62 812-0000-0000",
-  mapUrl: "https://maps.google.com/?q=Bintan",
+  whatsapp: "+62 812 7565 7026",
+  mapUrl: "https://maps.google.com/?q=Jl.%20Langsat%20Desa%20Sebong%20Lagoi%20Teluk%20Sebong%20Bintan",
 };
 
 const fallbackMemberNames = [
-  "Ardiansyah Putra", "Maya Sari", "Rizal Maulana", "Dewi Lestari", "Fahmi Ramadhan",
-  "Nadia Prameswari", "Bima Saputra", "Siti Nurhaliza", "Andika Pratama", "Fitri Handayani",
-  "Yoga Saputra", "Laras Wulandari", "Hendra Wijaya", "Putri Amelia", "Taufik Hidayat",
-  "Rani Puspita", "Dimas Ramadhan", "Intan Permata", "Agus Setiawan", "Melati Kirana",
-  "Bayu Nugroho", "Citra Lestari", "Fajar Maulana", "Nabila Safitri", "Raka Firmansyah",
-  "Ayu Kartika", "Reza Fahlevi", "Novi Anggraini", "Gilang Prakoso", "Dian Maharani",
-  "Ilham Akbar", "Mira Oktaviani", "Rudi Hartono", "Sarah Amalia", "Wahyu Saputra",
-  "Niken Pertiwi", "Yusuf Alfarizi", "Mega Pratiwi", "Doni Kurniawan", "Vina Marlina",
-  "Reno Aditya", "Tiara Maharani", "Sandi Pratama", "Lina Marlina", "Iqbal Ramadhan",
-  "Dara Anindya", "Eko Purnomo", "Ratna Sari", "Kevin Alamsyah", "Sri Wahyuni",
+  "Abdul Rahman", "Ahmad Syarif H", "Aliyadi", "M. Zikril Isril", "Sumardin",
+  "Chairil Anwar", "Khoirol", "Bakrim Bere", "M. Mukarrom", "Ansori",
+  "Iwan", "Bung Seng", "AngTonio", "Basrah", "Jono",
+  "Hariyanto", "Tutas Wahyu", "Erwin", "Indal Desri Putra", "Daniesl Samosir",
+  "Suhairi", "Rio", "Yanto", "Ardi Yent", "Qiu Ran",
+  "Sung Tiam", "Usman Syamnai", "Riska Triafani", "Rifqi Mangihuttua Hasibuan", "Hengki",
+  "Erni Harjayanti", "Andre Soemantrei", "Taufik Hidayat", "Lela Wirdyanti", "Putri Adliana Hasibuan",
+  "Roshamidah", "Melanie", "Diko Pahlevi Alfatoni", "Hamdi", "Parjo Nurgiyanto",
+  "Heri", "Sudarwadi", "Bambang Sutejo", "Nur Hasidah", "Anugrah Candra",
+  "Marwan", "Sandi Parulian",
 ];
 
 const fallbackPositions = ["Ketua DPD", "Wakil Ketua", "Sekretaris", "Bendahara", "Koordinator Lapangan", "Koordinator Pelatihan", "Bidang Humas", "Bidang Keanggotaan", "Pramuwisata", "Pramuwisata"];
@@ -73,10 +73,14 @@ export const fallbackAnnouncements = [
 ];
 
 export const fallbackGallery = [
-  ["Pelatihan Interpretasi Destinasi", "/head-background.jpg"],
-  ["Kunjungan Wisata Bintan", "/peta-pulau-bintan.jpg"],
-  ["Rapat Koordinasi Bulanan", "/uploads/1784221461556-45d0d916-4095-4a31-b7f1-8a639e67d2d9.jpg"],
-  ["Seminar Hospitality", "/uploads/1784221461527-66d2964b-c108-46b0-97b9-b04edec00383.jpg"],
+  ["Kegiatan Rapat Pengurus", "/foto-rapat/rapat-01.jpeg"],
+  ["Rapat Koordinasi Anggota", "/foto-rapat/rapat-02.jpeg"],
+  ["Dokumentasi Rapat Bulanan", "/foto-rapat/rapat-03.jpeg"],
+  ["Suasana Rapat HPI Bintan", "/foto-rapat/rapat-04.jpeg"],
+  ["Pelatihan Interpretasi Destinasi", "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85"],
+  ["Kunjungan Wisata Bintan", "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85"],
+  ["Seminar Hospitality", "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=85"],
+  ["Kolaborasi Mitra Pariwisata", "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=85"],
 ].map(([title, fileUrl], index) => ({
   id: `fallback-gallery-${index + 1}`,
   title,
@@ -86,13 +90,20 @@ export const fallbackGallery = [
   createdAt: new Date(2026, 0, index + 1),
 }));
 
-export const fallbackDocuments = ["AD/ART HPI Bintan", "Surat Keputusan Kepengurusan", "Program Kerja Tahunan", "Laporan Tahunan Organisasi"].map(
-  (title, index) => ({
+export const fallbackDocuments = [
+  ["Dokumentasi Rapat Pengurus", "/foto-rapat/rapat-05.jpeg", "JPG"],
+  ["Album Rapat Anggota", "/foto-rapat/rapat-06.jpeg", "JPG"],
+  ["AD/ART HPI Bintan", "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=1200&q=85", "PDF"],
+  ["Surat Keputusan Kepengurusan", "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=85", "PDF"],
+  ["Program Kerja Tahunan", "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=1200&q=85", "PDF"],
+  ["Laporan Tahunan Organisasi", "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=85", "PDF"],
+].map(
+  ([title, fileUrl, fileType], index) => ({
     id: `fallback-document-${index + 1}`,
     title,
-    fileUrl: "/uploads/.gitkeep",
-    fileType: "PDF",
-    description: "Dokumen organisasi yang dapat diperbarui melalui dashboard admin.",
+    fileUrl,
+    fileType,
+    description: "Dokumen dan dokumentasi organisasi yang dapat diperbarui melalui dashboard admin.",
     createdAt: new Date(2026, 0, index + 1),
   }),
 );

@@ -12,6 +12,10 @@ const quickLinks = [
   ["Transportasi", "/transportasi"],
 ] as const;
 
+const address = "Jl. Langsat RT.001 / RW.001, Desa Sebong Lagoi, Kec. Teluk Sebong, Kab. Bintan.";
+const phone = "+62 812 7565 7026";
+const mapsUrl = "https://maps.google.com/maps?q=Jl.%20Langsat%20Desa%20Sebong%20Lagoi%20Teluk%20Sebong%20Bintan&t=&z=15&ie=UTF8&iwloc=&output=embed";
+
 export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden bg-[#080b12] pt-16 text-white">
@@ -39,15 +43,15 @@ export function SiteFooter() {
         <div>
           <h3 className="text-sm font-black uppercase tracking-[.18em] text-[#ff9900]">Kontak</h3>
           <div className="mt-5 grid gap-4 text-sm text-zinc-300">
-            <p className="flex gap-3 leading-6"><MapPin className="mt-1 h-4 w-4 shrink-0 text-[#ff9900]" />Kabupaten Bintan, Kepulauan Riau, Indonesia</p>
+            <p className="flex gap-3 leading-6"><MapPin className="mt-1 h-4 w-4 shrink-0 text-[#ff9900]" />{address}</p>
             <p className="flex gap-3"><Mail className="h-4 w-4 shrink-0 text-[#ff9900]" />info@hpibintan.org</p>
-            <p className="flex gap-3"><Phone className="h-4 w-4 shrink-0 text-[#ff9900]" />+62 812-0000-0000</p>
+            <p className="flex gap-3"><Phone className="h-4 w-4 shrink-0 text-[#ff9900]" />{phone}</p>
           </div>
         </div>
 
         <div>
           <h3 className="text-sm font-black uppercase tracking-[.18em] text-[#ff9900]">Google Maps</h3>
-          <iframe title="Peta Bintan" src="https://maps.google.com/maps?q=Bintan&t=&z=9&ie=UTF8&iwloc=&output=embed" className="mt-5 h-52 w-full rounded-3xl border border-white/10 grayscale transition hover:grayscale-0" loading="lazy" />
+          <iframe title="Peta Sekretariat HPI Bintan" src={mapsUrl} className="mt-5 h-52 w-full rounded-3xl border border-white/10 grayscale transition hover:grayscale-0" loading="lazy" />
         </div>
       </div>
       <div className="relative border-t border-white/10 py-5">

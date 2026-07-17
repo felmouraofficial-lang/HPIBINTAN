@@ -16,6 +16,8 @@ const nav = [
   ["Kontak", "/kontak"],
 ] as const;
 
+const guideBookingUrl = "https://wa.me/6281275657026?text=Halo%20HPI%20Bintan%2C%20saya%20ingin%20booking%20guide.";
+
 export function SiteHeader() {
   const [solid, setSolid] = useState(false);
   const [open, setOpen] = useState(false);
@@ -67,7 +69,7 @@ export function SiteHeader() {
           <button type="button" onClick={toggleTheme} className={`grid h-11 w-11 place-items-center rounded-full transition ${solid ? "bg-zinc-100 text-zinc-800 hover:bg-zinc-200 dark:bg-white/10 dark:text-white" : "bg-white/12 text-white hover:bg-white/20"}`} aria-label="Ganti mode tampilan">
             {dark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
-          <Link href="/kontak" className="inline-flex items-center gap-2 rounded-full bg-[#ff9900] px-5 py-3 text-xs font-black uppercase tracking-[.12em] text-white shadow-[0_18px_45px_rgba(255,153,0,.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-primary xl:px-6">
+          <Link href={guideBookingUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full bg-[#ff9900] px-5 py-3 text-xs font-black uppercase tracking-[.12em] text-white shadow-[0_18px_45px_rgba(255,153,0,.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-primary xl:px-6">
             <CalendarCheck className="h-4 w-4" />Guide Booking
           </Link>
         </div>
@@ -81,7 +83,7 @@ export function SiteHeader() {
         <div className="container pb-4 lg:hidden">
           <nav className="grid gap-1 rounded-3xl border border-white/16 bg-zinc-950/92 p-3 text-white shadow-2xl backdrop-blur-2xl">
             {nav.map(([label, href]) => <Link key={href} href={href} onClick={() => setOpen(false)} className="rounded-2xl px-4 py-3 text-sm font-black hover:bg-white/10">{label}</Link>)}
-            <Link href="/kontak" onClick={() => setOpen(false)} className="mt-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#ff9900] px-4 py-3 text-sm font-black text-white">Guide Booking</Link>
+            <Link href={guideBookingUrl} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className="mt-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#ff9900] px-4 py-3 text-sm font-black text-white">Guide Booking</Link>
           </nav>
         </div>
       )}

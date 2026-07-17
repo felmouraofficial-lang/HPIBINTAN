@@ -159,7 +159,7 @@ export default async function HomePage() {
         <section className="bg-primary py-16 text-white">
           <div className="container grid gap-8 lg:grid-cols-[1fr_auto]">
             <div><SectionTitle inverse eyebrow="Kontak" title="Guide booking dan informasi resmi." /><p className="mt-5 flex items-center gap-2 text-lg font-bold"><Navigation className="h-5 w-5" />{contact.address}</p><p className="mt-2 text-red-50">{contact.email} - {contact.whatsapp}</p></div>
-            <Link href="/kontak" className="inline-flex h-14 items-center justify-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-[.18em] text-primary">Hubungi Sekretariat</Link>
+            <Link href="https://wa.me/6281275657026?text=Halo%20HPI%20Bintan%2C%20saya%20ingin%20booking%20guide." target="_blank" rel="noopener noreferrer" className="inline-flex h-14 items-center justify-center rounded-full bg-white px-8 text-sm font-black uppercase tracking-[.18em] text-primary">Hubungi Sekretariat</Link>
           </div>
         </section>
       </main>
