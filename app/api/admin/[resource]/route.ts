@@ -2,6 +2,7 @@
 
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { fallbackAnnouncements, fallbackDocuments, fallbackGallery, fallbackMeetings, fallbackMembers, fallbackTransportation } from "@/lib/fallback-data";
 
@@ -13,16 +14,23 @@ type Context = { params: Promise<{ resource: string }> };
 async function guard() { return Boolean((await cookies()).get("hpi_admin")?.value); }
 function isResource(resource: string): resource is Resource { return resource in map; }
 function normalize(data: any) { const out = { ...data }; if ("isActive" in out) out.isActive = out.isActive === true || out.isActive === "true"; if ("isPublished" in out) out.isPublished = out.isPublished === true || out.isPublished === "true"; if ("capacity" in out) out.capacity = Number(out.capacity); if ("date" in out && out.date) out.date = new Date(out.date); Object.keys(out).forEach((k) => out[k] === "" && (out[k] = null)); return out; }
+function revalidateWebsite(resource: Resource) { ["/", "/anggota", "/galeri", "/dokumentasi", "/transportasi", "/pengumuman"].forEach((path) => revalidatePath(path)); revalidatePath(`/admin/${resource}`); }
+function json(data: unknown, init?: ResponseInit) { const response = NextResponse.json(data, init); response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate"); return response; }
 
 export async function GET(_: Request, context: Context) {
   const { resource } = await context.params;
   if (!isResource(resource)) return NextResponse.json({ error: "Not found" }, { status: 404 });
   const model = map[resource];
   try {
-    const rows = await (model as any).findMany({ orderBy: { createdAt: "desc" }, take: 100 });
-    return NextResponse.json(rows.length ? rows : fallbackMap[resource]);
+    let rows = await (model as any).findMany({ orderBy: { createdAt: "desc" }, take: 100 });
+    if (rows.length === 0 && fallbackMap[resource].length) {
+      await (model as any).createMany({ data: fallbackMap[resource].map((item: any) => normalize(item)), skipDuplicates: true });
+      rows = await (model as any).findMany({ orderBy: { createdAt: "desc" }, take: 100 });
+      revalidateWebsite(resource);
+    }
+    return json(rows);
   } catch {
-    return NextResponse.json(fallbackMap[resource]);
+    return json({ error: "Database belum siap. Periksa DATABASE_URL, migration, dan seed di Vercel.", rows: [] }, { status: 503 });
   }
 }
 
@@ -32,8 +40,10 @@ export async function POST(request: Request, context: Context) {
   if (!isResource(resource)) return NextResponse.json({ error: "Not found" }, { status: 404 });
   const model = map[resource];
   try {
-    return NextResponse.json(await (model as any).create({ data: normalize(await request.json()) }));
+    const created = await (model as any).create({ data: normalize(await request.json()) });
+    revalidateWebsite(resource);
+    return json({ ok: true, message: "Data berhasil ditambahkan dan halaman utama sudah disinkronkan.", row: created });
   } catch {
-    return NextResponse.json({ error: "Database belum siap. Periksa DATABASE_URL, migration, dan seed di Vercel." }, { status: 503 });
+    return json({ error: "Database belum siap. Periksa DATABASE_URL, migration, dan seed di Vercel." }, { status: 503 });
   }
 }
