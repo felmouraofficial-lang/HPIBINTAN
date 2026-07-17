@@ -1,6 +1,6 @@
 # Sistem Informasi HPI Bintan
 
-Website company profile dan dashboard admin Himpunan Pramuwisata Indonesia DPD Bintan, dibangun dengan Next.js App Router, React, TypeScript, Tailwind CSS, Prisma, PostgreSQL, NextAuth, Zod, TanStack Table-ready patterns, Lucide, dan Framer Motion-ready dependency.
+Website company profile dan dashboard admin Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan, dibangun dengan Next.js App Router, React, TypeScript, Tailwind CSS, Prisma, PostgreSQL, NextAuth, Zod, TanStack Table-ready patterns, Lucide, dan Framer Motion-ready dependency.
 
 ## Setup
 

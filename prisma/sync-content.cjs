@@ -23,7 +23,7 @@ const memberNames = [
   "Marwan", "Sandi Parulian",
 ];
 
-const memberPositions = ["Ketua DPD", "Wakil Ketua", "Sekretaris", "Bendahara", "Koordinator Lapangan", "Koordinator Pelatihan", "Bidang Humas", "Bidang Keanggotaan"];
+const memberPositions = ["Ketua DPC", "Wakil Ketua", "Sekretaris", "Bendahara", "Koordinator Lapangan", "Koordinator Pelatihan", "Bidang Humas", "Bidang Keanggotaan"];
 const memberPhotos = ["/member-dummy-1.jpeg", "/member-dummy-2.jpeg", "/member-dummy-3.jpeg", "/uploads/1784221305257-f652719a-d758-47ae-ae59-a9beca92924e.jpg"];
 
 const galleryItems = [
@@ -44,6 +44,26 @@ const documents = [
 ];
 
 async function main() {
+  await prisma.organizationProfile.upsert({
+    where: { id: "main" },
+    update: {
+      heroTitle: "Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan",
+      history: "DPC HPI Kabupaten Bintan adalah Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia yang berperan sebagai wadah profesi pramuwisata di Kabupaten Bintan. Kami mengawal profesionalisme, etika pelayanan, peningkatan kompetensi, dan kolaborasi pariwisata daerah.",
+      vision: "Menjadi organisasi profesi pramuwisata yang profesional, kompeten, beretika, dan menjadi rujukan utama pelayanan wisata Kabupaten Bintan dan Kepulauan Riau.",
+      mission: "Meningkatkan kompetensi anggota melalui pelatihan berkala, membangun jaringan kemitraan, mendukung promosi destinasi, dan memastikan layanan pramuwisata yang aman, informatif, serta berkesan.",
+      heroSubtitle: "Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia Kabupaten Bintan - mengawal profesionalisme dan memajukan pariwisata Kepulauan Riau.",
+    },
+    create: {
+      id: "main",
+      heroTitle: "Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan",
+      history: "DPC HPI Kabupaten Bintan adalah Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia yang berperan sebagai wadah profesi pramuwisata di Kabupaten Bintan. Kami mengawal profesionalisme, etika pelayanan, peningkatan kompetensi, dan kolaborasi pariwisata daerah.",
+      vision: "Menjadi organisasi profesi pramuwisata yang profesional, kompeten, beretika, dan menjadi rujukan utama pelayanan wisata Kabupaten Bintan dan Kepulauan Riau.",
+      mission: "Meningkatkan kompetensi anggota melalui pelatihan berkala, membangun jaringan kemitraan, mendukung promosi destinasi, dan memastikan layanan pramuwisata yang aman, informatif, serta berkesan.",
+      structure: "Ketua, Wakil Ketua, Sekretaris, Bendahara, Koordinator Lapangan, Bidang Pendidikan, Bidang Humas, dan Koordinator Mitra.",
+      heroSubtitle: "Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia Kabupaten Bintan - mengawal profesionalisme dan memajukan pariwisata Kepulauan Riau.",
+    },
+  });
+
   await prisma.contact.upsert({ where: { id: contact.id }, update: contact, create: contact });
 
   const existingMembers = await prisma.member.findMany({ orderBy: { createdAt: "asc" }, take: memberNames.length });

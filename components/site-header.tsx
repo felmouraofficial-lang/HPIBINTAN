@@ -52,7 +52,7 @@ export function SiteHeader() {
             <Image src={logos[0]} alt="Logo HPI Bintan" width={100} height={54} className="h-auto max-h-12 w-full object-contain drop-shadow-[0_10px_24px_rgba(0,0,0,.26)] md:max-h-14" priority />
           </span>
           <span className="hidden min-w-0 sm:block">
-            <span className="block whitespace-nowrap text-sm font-black leading-tight tracking-wide xl:text-base">HPI Pulau Bintan</span>
+            <span className="block whitespace-nowrap text-sm font-black leading-tight tracking-wide xl:text-base">HPI DPC Kabupaten Bintan</span>
             <span className={`mt-0.5 block text-[9px] font-black uppercase tracking-[.22em] ${solid ? "text-zinc-500 dark:text-white/62" : "text-white/78"}`}>Kepulauan Riau</span>
           </span>
         </Link>

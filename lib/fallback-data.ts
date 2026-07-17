@@ -1,16 +1,16 @@
 export const fallbackProfile = {
   id: "main",
   history:
-    "DPD HPI Pulau Bintan adalah Dewan Pimpinan Daerah Himpunan Pramuwisata Indonesia yang berperan sebagai wadah profesi pramuwisata di Pulau Bintan. Kami mengawal profesionalisme, etika pelayanan, peningkatan kompetensi, dan kolaborasi pariwisata daerah.",
+    "DPC HPI Kabupaten Bintan adalah Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia yang berperan sebagai wadah profesi pramuwisata di Kabupaten Bintan. Kami mengawal profesionalisme, etika pelayanan, peningkatan kompetensi, dan kolaborasi pariwisata daerah.",
   vision:
     "Menjadi organisasi profesi pramuwisata yang profesional, kompeten, beretika, dan menjadi rujukan utama pelayanan wisata Pulau Bintan dan Kepulauan Riau.",
   mission:
     "Meningkatkan kompetensi anggota melalui pelatihan berkala, membangun jaringan kemitraan, mendukung promosi destinasi, dan memastikan layanan pramuwisata yang aman, informatif, serta berkesan.",
   structure:
     "Ketua, Wakil Ketua, Sekretaris, Bendahara, Koordinator Lapangan, Bidang Pendidikan, Bidang Humas, dan Koordinator Mitra.",
-  heroTitle: "Sistem Informasi HPI Bintan",
+  heroTitle: "Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan",
   heroSubtitle:
-    "Dewan Pimpinan Daerah Himpunan Pramuwisata Indonesia Pulau Bintan - mengawal profesionalisme dan memajukan pariwisata Kepulauan Riau.",
+    "Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia Kabupaten Bintan - mengawal profesionalisme dan memajukan pariwisata Kepulauan Riau.",
 };
 
 export const fallbackContact = {
@@ -34,7 +34,7 @@ const fallbackMemberNames = [
   "Marwan", "Sandi Parulian",
 ];
 
-const fallbackPositions = ["Ketua DPD", "Wakil Ketua", "Sekretaris", "Bendahara", "Koordinator Lapangan", "Koordinator Pelatihan", "Bidang Humas", "Bidang Keanggotaan", "Pramuwisata", "Pramuwisata"];
+const fallbackPositions = ["Ketua DPC", "Wakil Ketua", "Sekretaris", "Bendahara", "Koordinator Lapangan", "Koordinator Pelatihan", "Bidang Humas", "Bidang Keanggotaan", "Pramuwisata", "Pramuwisata"];
 
 export const fallbackMembers = fallbackMemberNames.map((name, index) => ({
   id: `fallback-member-${index + 1}`,
