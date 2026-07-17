@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import { ArrowRight, EyeOff, MapPin } from "lucide-react";
+import { ArrowRight, EyeOff, MapPin, Sparkles } from "lucide-react";
 
 type Destination = { category: string; name: string; description: string; location: string; image: string; mapUrl?: string };
 
@@ -47,13 +47,13 @@ export function DestinationSection({ destinations, mapImage, mapText }: { destin
         <p className="mt-5 text-center text-sm font-semibold text-white/65">Menampilkan {visible.length} dari {destinations.length} destinasi</p>
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-[.86fr_1.14fr]">
+      <div className="mt-8 grid gap-6 lg:grid-cols-[.9fr_1.1fr]">
         <div className="rounded-[1.75rem] border border-white/15 bg-white/10 p-5 backdrop-blur">
           <div className="grid max-h-[650px] gap-4 overflow-auto pr-2">
-            {visible.map((item) => <article key={item.name} className="grid gap-4 rounded-3xl bg-white p-4 text-zinc-900 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(34,18,8,.24)] sm:grid-cols-[160px_1fr]"><Image src={item.image} alt={item.name} width={320} height={220} className="h-40 w-full rounded-2xl object-cover" /><div><p className="text-xs font-black uppercase tracking-[.16em] text-gold">{item.category}</p><h3 className="mt-2 text-xl font-black">{item.name}</h3><p className="mt-2 flex items-center gap-2 text-sm font-bold text-primary"><MapPin className="h-4 w-4" />{item.location}</p><p className="mt-2 text-sm leading-6 text-zinc-600">{item.description}</p><a href={item.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.name + " Bintan")}`} target="_blank" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#8a4719] px-4 py-2 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-primary">Lihat Google Maps <ArrowRight className="h-4 w-4" /></a></div></article>)}
+            {visible.map((item) => <article key={item.name} className="group grid gap-4 overflow-hidden rounded-3xl bg-white p-3 text-zinc-900 shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(34,18,8,.28)] sm:grid-cols-[170px_1fr]"><div className="relative h-44 overflow-hidden rounded-2xl"><Image src={item.image} alt={item.name} fill sizes="220px" className="object-cover transition duration-700 group-hover:scale-110" /><div className="absolute inset-0 bg-gradient-to-t from-black/28 to-transparent" /></div><div className="p-2"><p className="inline-flex items-center gap-2 rounded-full bg-[#fff4d8] px-3 py-1 text-xs font-black uppercase tracking-[.14em] text-[#8a4719]"><Sparkles className="h-3 w-3" />{item.category}</p><h3 className="mt-3 text-2xl font-black leading-tight">{item.name}</h3><p className="mt-2 flex items-center gap-2 text-sm font-bold text-primary"><MapPin className="h-4 w-4" />{item.location}</p><p className="mt-2 text-sm leading-6 text-zinc-600">{item.description}</p><a href={item.mapUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.name + " Bintan")}`} target="_blank" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#8a4719] px-4 py-2 text-sm font-black text-white transition hover:-translate-y-0.5 hover:bg-primary">Lihat Google Maps <ArrowRight className="h-4 w-4" /></a></div></article>)}
           </div>
         </div>
-        <div className="rounded-[1.75rem] bg-white p-4 shadow-soft"><Image src={mapImage} alt="Peta Pulau Bintan" width={1000} height={740} className="h-[560px] w-full rounded-[1.35rem] object-cover" /><p className="mt-5 leading-7 text-zinc-600">{mapText}</p></div>
+        <div className="rounded-[1.75rem] bg-white p-4 shadow-soft"><div className="relative overflow-hidden rounded-[1.35rem]"><Image src={mapImage} alt="Peta Pulau Bintan" width={1000} height={740} className="h-[560px] w-full object-cover" />{[{ top: "24%", left: "33%" }, { top: "42%", left: "56%" }, { top: "62%", left: "46%" }, { top: "34%", left: "70%" }, { top: "70%", left: "72%" }].map((pos, index) => <span key={index} className="absolute grid h-7 w-7 place-items-center rounded-full bg-primary text-white shadow-[0_0_0_10px_rgba(215,25,32,.18)] marker-pulse" style={pos}><MapPin className="h-4 w-4" /></span>)}</div><p className="mt-5 leading-7 text-zinc-600">{mapText}</p></div>
       </div>
     </div>
   </section>;
