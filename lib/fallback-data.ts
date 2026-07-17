@@ -8,7 +8,7 @@ export const fallbackProfile = {
     "Meningkatkan kompetensi anggota melalui pelatihan berkala, membangun jaringan kemitraan, mendukung promosi destinasi, dan memastikan layanan pramuwisata yang aman, informatif, serta berkesan.",
   structure:
     "Ketua, Wakil Ketua, Sekretaris, Bendahara, Koordinator Lapangan, Bidang Pendidikan, Bidang Humas, dan Koordinator Mitra.",
-  heroTitle: "Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan",
+  heroTitle: "DPC HPI Kabupaten Bintan",
   heroSubtitle:
     "Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia Kabupaten Bintan - mengawal profesionalisme dan memajukan pariwisata Kepulauan Riau.",
 };

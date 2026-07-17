@@ -41,7 +41,7 @@ export default function MeetingDocumentationPage() {
               <p className="text-sm font-black uppercase tracking-[.32em] text-[#c78010]">Album Kegiatan</p>
               <h1 className="mt-4 text-5xl font-black leading-[.95] md:text-7xl">Dokumentasi Rapat</h1>
             </div>
-            <p className="max-w-2xl text-base leading-8 text-[#6b5a48] dark:text-zinc-300">Kumpulan dokumentasi rapat pengurus dan koordinasi anggota HPI Pulau Bintan. Foto-foto ini menampilkan suasana diskusi, penyampaian agenda, evaluasi program, dan kebersamaan anggota dalam memperkuat pelayanan pramuwisata di Bintan.</p>
+            <p className="max-w-2xl text-base leading-8 text-[#6b5a48] dark:text-zinc-300">Kumpulan dokumentasi rapat pengurus dan koordinasi anggota DPC HPI Kabupaten Bintan. Foto-foto ini menampilkan suasana diskusi, penyampaian agenda, evaluasi program, dan kebersamaan anggota dalam memperkuat pelayanan pramuwisata di Bintan.</p>
           </div>
         </section>
 

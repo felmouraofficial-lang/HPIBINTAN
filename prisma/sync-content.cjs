@@ -47,7 +47,7 @@ async function main() {
   await prisma.organizationProfile.upsert({
     where: { id: "main" },
     update: {
-      heroTitle: "Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan",
+      heroTitle: "DPC HPI Kabupaten Bintan",
       history: "DPC HPI Kabupaten Bintan adalah Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia yang berperan sebagai wadah profesi pramuwisata di Kabupaten Bintan. Kami mengawal profesionalisme, etika pelayanan, peningkatan kompetensi, dan kolaborasi pariwisata daerah.",
       vision: "Menjadi organisasi profesi pramuwisata yang profesional, kompeten, beretika, dan menjadi rujukan utama pelayanan wisata Kabupaten Bintan dan Kepulauan Riau.",
       mission: "Meningkatkan kompetensi anggota melalui pelatihan berkala, membangun jaringan kemitraan, mendukung promosi destinasi, dan memastikan layanan pramuwisata yang aman, informatif, serta berkesan.",
@@ -55,7 +55,7 @@ async function main() {
     },
     create: {
       id: "main",
-      heroTitle: "Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan",
+      heroTitle: "DPC HPI Kabupaten Bintan",
       history: "DPC HPI Kabupaten Bintan adalah Dewan Pimpinan Cabang Himpunan Pramuwisata Indonesia yang berperan sebagai wadah profesi pramuwisata di Kabupaten Bintan. Kami mengawal profesionalisme, etika pelayanan, peningkatan kompetensi, dan kolaborasi pariwisata daerah.",
       vision: "Menjadi organisasi profesi pramuwisata yang profesional, kompeten, beretika, dan menjadi rujukan utama pelayanan wisata Kabupaten Bintan dan Kepulauan Riau.",
       mission: "Meningkatkan kompetensi anggota melalui pelatihan berkala, membangun jaringan kemitraan, mendukung promosi destinasi, dan memastikan layanan pramuwisata yang aman, informatif, serta berkesan.",

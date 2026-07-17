@@ -30,7 +30,7 @@ export default async function ContactPage() {
   return (
     <>
       <SiteHeader />
-      <PageHero title="Kontak" description="Hubungi HPI Pulau Bintan Kepulauan Riau untuk informasi organisasi dan layanan pramuwisata." />
+      <PageHero title="Kontak" description="Hubungi DPC HPI Kabupaten Bintan Kepulauan Riau untuk informasi organisasi dan layanan pramuwisata." />
       <main className="container grid gap-5 py-12 lg:grid-cols-3">
         <Card>
           <MapPin className="text-primary" />

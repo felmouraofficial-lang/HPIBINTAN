@@ -25,8 +25,8 @@ export function SiteFooter() {
           <div className="mb-6 flex items-center gap-3">
             <Image src={logos[0]} alt="Logo HPI Bintan" width={110} height={60} className="rounded-2xl bg-white object-contain p-2" />
           </div>
-          <h2 className="text-3xl font-black leading-tight">HPI DPC Kabupaten Bintan</h2>
-          <p className="mt-4 max-w-md text-sm leading-7 text-zinc-300">Website resmi Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan untuk informasi organisasi, anggota, agenda, dokumentasi, dan layanan guide booking.</p>
+          <h2 className="text-3xl font-black leading-tight">DPC HPI Kabupaten Bintan</h2>
+          <p className="mt-4 max-w-md text-sm leading-7 text-zinc-300">Website resmi Himpunan Pramuwisata Indonesia Kabupaten Bintan untuk informasi organisasi, anggota, agenda, dokumentasi, dan layanan guide booking.</p>
           <div className="mt-6 flex gap-2">
             <span className="grid h-10 w-10 place-items-center rounded-full border border-white/12 bg-white/8"><Share2 className="h-4 w-4" /></span>
             <span className="grid h-10 w-10 place-items-center rounded-full border border-white/12 bg-white/8"><Globe2 className="h-4 w-4" /></span>
@@ -56,7 +56,7 @@ export function SiteFooter() {
       </div>
       <div className="relative border-t border-white/10 py-5">
         <div className="container flex flex-wrap items-center justify-between gap-3 text-xs text-zinc-400">
-          <span>Copyright 2026 HPI DPC Kabupaten Bintan. Seluruh hak cipta dilindungi.</span>
+          <span>Copyright 2026 DPC HPI Kabupaten Bintan. Seluruh hak cipta dilindungi.</span>
           <Link href="/admin/login" className="font-bold uppercase tracking-[.18em] text-zinc-500 transition hover:text-[#ff9900]">Dashboard Admin</Link>
         </div>
       </div>

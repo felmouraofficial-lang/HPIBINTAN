@@ -5,7 +5,7 @@ export function PageHero({ title, description }: { title: string; description: s
       <div className="absolute -left-20 top-0 h-72 w-72 rounded-full bg-primary/30 blur-3xl" />
       <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-gold/30 blur-3xl" />
       <div className="container relative">
-        <p className="text-sm font-black uppercase tracking-[.22em] text-gold">Himpunan Pramuwisata Indonesia DPC Kabupaten Bintan</p>
+        <p className="text-sm font-black uppercase tracking-[.22em] text-gold">DPC HPI Kabupaten Bintan</p>
         <h1 className="mt-4 max-w-4xl text-balance text-5xl font-black tracking-tight md:text-6xl">{title}</h1>
         <p className="mt-5 max-w-3xl text-lg leading-8 text-zinc-300">{description}</p>
       </div>

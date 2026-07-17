@@ -122,7 +122,7 @@ export default async function HomePage() {
 
         <section className="bg-white py-16">
           <div className="container">
-            <SectionTitle center eyebrow="Struktur Organisasi" title="Pengurus Inti HPI Pulau Bintan" subtitle="Sinergi profesional untuk pariwisata unggul" />
+            <SectionTitle center eyebrow="Struktur Organisasi" title="Pengurus Inti DPC HPI Kabupaten Bintan" subtitle="Sinergi profesional untuk pariwisata unggul" />
             <OrganizationMotion members={members} />
             <div className="mt-10 text-center">
               <Link href="/anggota" className="inline-flex h-14 items-center justify-center rounded-full border border-[#ead6bc] bg-white px-8 text-sm font-black uppercase tracking-[.14em] text-[#8a4719] shadow-sm transition hover:-translate-y-1 hover:border-[#ff9900] hover:text-primary">Lihat Seluruh Anggota</Link>
