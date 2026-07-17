@@ -88,6 +88,11 @@ function parseArray<T>(value: string | undefined, fallback: T[]): T[] {
 
 export default async function HomePage() {
   const { profile, members, announcements, meetings, gallery, transport, contact, setting, destinations, partners } = await getHomeData();
+  const profileContent = {
+    history: profile.history?.trim() || fallbackProfile.history,
+    vision: profile.vision?.trim() || fallbackProfile.vision,
+    mission: profile.mission?.trim() || fallbackProfile.mission,
+  };
   const heroImage = ["/hero-bintan.jpg", "https://upload.wikimedia.org/wikipedia/commons/7/74/Banyan_Tree_Bintan.jpg", ""].includes(setting.hero_image ?? "")
     ? fallbackSettings.hero_image
     : setting.hero_image;
@@ -101,14 +106,14 @@ export default async function HomePage() {
         <section className="bg-white py-20">
           <div className="container grid gap-10 lg:grid-cols-[.9fr_1.1fr]">
             <div>
-              <SectionTitle eyebrow="Tentang Organisasi" title="Mengawal profesionalisme pramuwisata Bintan." />
-              <p className="mt-6 text-lg leading-9 text-zinc-600">{profile.history}</p>
+              <SectionTitle eyebrow="Tentang Organisasi" title="DPC HPI Kabupaten Bintan mengawal profesionalisme pramuwisata Bintan." />
+              <p className="mt-6 text-lg leading-9 text-zinc-600">{profileContent.history}</p>
               <Link href="/tentang-kami" className="mt-8 inline-flex rounded-full bg-[#8a4719] px-7 py-4 font-black text-white">Selengkapnya</Link>
             </div>
             <div className="grid gap-5">
               {[
-                { title: "Visi", text: profile.vision, Icon: Compass, gradient: "from-sky-500 to-cyan-400" },
-                { title: "Misi", text: profile.mission, Icon: Lightbulb, gradient: "from-amber-500 to-orange-400" },
+                { title: "Visi", text: profileContent.vision, Icon: Compass, gradient: "from-sky-500 to-cyan-400" },
+                { title: "Misi", text: profileContent.mission, Icon: Lightbulb, gradient: "from-amber-500 to-orange-400" },
                 { title: "Nilai", text: "Profesionalisme, integritas, pelayanan prima, kolaborasi, dan pengembangan berkelanjutan.", Icon: Gem, gradient: "from-emerald-500 to-teal-400" },
               ].map(({ title, text, Icon, gradient }) => (
                 <Card key={title} className="group flex gap-5 p-7 transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(41,20,8,.12)]">
