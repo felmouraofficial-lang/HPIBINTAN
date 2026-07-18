@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { LayoutDashboard, Users, CalendarCheck, Images, FileText, Bus, Megaphone, Contact, Home, Building2, MapPinned } from "lucide-react";
 
-const items = [["Dashboard", "/admin/dashboard", LayoutDashboard], ["Beranda/Tentang", "/admin/content", Home], ["Destinasi", "/admin/destinations", MapPinned], ["Anggota", "/admin/members", Users], ["Absensi Harian", "/admin/attendance", CalendarCheck], ["Absensi Rapat", "/admin/meetings", Building2], ["Galeri", "/admin/gallery", Images], ["Dokumentasi", "/admin/documents", FileText], ["Transportasi", "/admin/transportation", Bus], ["Pengumuman", "/admin/announcements", Megaphone], ["Kontak", "/admin/contact", Contact]];
+const items = [["Dashboard", "/admin/dashboard", LayoutDashboard], ["Beranda/Tentang", "/admin/content", Home], ["Destinasi", "/admin/destinations", MapPinned], ["Anggota", "/admin/members", Users], ["Absensi Harian", "/admin/attendance", CalendarCheck], ["Kegiatan/Agenda", "/admin/meetings", Building2], ["Galeri", "/admin/gallery", Images], ["Dokumentasi", "/admin/documents", FileText], ["Transportasi", "/admin/transportation", Bus], ["Pengumuman", "/admin/announcements", Megaphone], ["Kontak", "/admin/contact", Contact]];
 
 export async function AdminShell({ children }: { children: ReactNode }) {
   const adminCookie = (await cookies()).get("hpi_admin")?.value;

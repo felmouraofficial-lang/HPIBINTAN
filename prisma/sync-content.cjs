@@ -27,10 +27,10 @@ const memberPositions = ["Ketua DPC", "Wakil Ketua", "Sekretaris", "Bendahara", 
 const memberPhotos = ["/member-dummy-1.jpeg", "/member-dummy-2.jpeg", "/member-dummy-3.jpeg", "/uploads/1784221305257-f652719a-d758-47ae-ae59-a9beca92924e.jpg"];
 
 const galleryItems = [
-  ["Kegiatan Rapat Pengurus", "/foto-rapat/rapat-01.jpeg"],
-  ["Rapat Koordinasi Anggota", "/foto-rapat/rapat-02.jpeg"],
-  ["Dokumentasi Rapat Bulanan", "/foto-rapat/rapat-03.jpeg"],
-  ["Suasana Rapat HPI Bintan", "/foto-rapat/rapat-04.jpeg"],
+  ...Array.from({ length: 43 }, (_, index) => {
+    const number = String(index + 1).padStart(2, "0");
+    return [`Dokumentasi Rapat ${number}`, `/foto-rapat/rapat-${number}.jpeg`];
+  }),
   ["Pelatihan Interpretasi Destinasi", "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&q=85"],
   ["Kunjungan Wisata Bintan", "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85"],
 ];
@@ -83,7 +83,7 @@ async function main() {
 
   for (const [title, fileUrl] of galleryItems) {
     const existing = await prisma.gallery.findFirst({ where: { OR: [{ title }, { fileUrl }] } });
-    const data = { title, category: "PHOTO", fileUrl, description: "Dokumentasi kegiatan HPI Bintan." };
+    const data = { title, category: "PHOTO", fileUrl, description: title.toLowerCase().includes("rapat") ? "Dokumentasi rapat DPC HPI Kepulauan Bintan." : "Dokumentasi kegiatan HPI Bintan." };
     if (existing) await prisma.gallery.update({ where: { id: existing.id }, data });
     else await prisma.gallery.create({ data });
   }
@@ -100,3 +100,4 @@ async function main() {
 }
 
 main().finally(() => prisma.$disconnect());
+

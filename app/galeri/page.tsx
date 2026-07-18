@@ -21,12 +21,13 @@ export default async function GalleryPage() {
 
   const meetingPhotos = data.filter((item) => item.fileUrl.includes("/foto-rapat/"));
   const meetingCover = meetingPhotos[0]?.fileUrl ?? "/foto-rapat/rapat-01.jpeg";
+  const meetingCount = Math.max(meetingPhotos.length, 43);
   const regularItems = data.filter((item) => !item.fileUrl.includes("/foto-rapat/"));
 
   return (
     <>
       <SiteHeader />
-      <PageHero title="Galeri" description="Dokumentasi foto dan video kegiatan HPI Pulau Bintan Kepulauan Riau." />
+      <PageHero title="Galeri" description="Dokumentasi foto dan video kegiatan DPC HPI Kepulauan Bintan." />
       <main className="bg-[var(--surface)] py-14">
         <div className="container">
           <>
@@ -38,9 +39,9 @@ export default async function GalleryPage() {
               <div className="flex flex-col justify-center p-7 sm:p-10 lg:p-12">
                 <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-black uppercase tracking-[.2em] text-[#8a4719] shadow-sm"><Images className="h-4 w-4" /> Album Kegiatan</span>
                 <h2 className="mt-6 text-4xl font-black leading-tight text-[#2f2119] md:text-5xl">Dokumentasi Rapat</h2>
-                <p className="mt-4 max-w-xl text-base leading-8 text-[#5f4a38]">Kumpulan foto rapat pengurus dan koordinasi anggota HPI Pulau Bintan. Album ini merangkum suasana diskusi, evaluasi program, serta penyelarasan agenda organisasi.</p>
+                <p className="mt-4 max-w-xl text-base leading-8 text-[#5f4a38]">Kumpulan foto rapat pengurus dan koordinasi anggota DPC HPI Kepulauan Bintan. Album ini merangkum suasana diskusi, evaluasi program, serta penyelarasan agenda organisasi.</p>
                 <div className="mt-7 flex flex-wrap items-center gap-3">
-                  <span className="rounded-full bg-white px-5 py-3 text-sm font-black text-[#2f2119] shadow-sm">15 foto tersedia</span>
+                  <span className="rounded-full bg-white px-5 py-3 text-sm font-black text-[#2f2119] shadow-sm">{meetingCount} foto tersedia</span>
                   <span className="inline-flex items-center gap-2 rounded-full bg-[#2f2119] px-5 py-3 text-sm font-black text-white transition group-hover:bg-primary">Lihat Album <ArrowRight className="h-4 w-4" /></span>
                 </div>
               </div>
@@ -77,3 +78,5 @@ export default async function GalleryPage() {
     </>
   );
 }
+
+

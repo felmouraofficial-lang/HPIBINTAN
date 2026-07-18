@@ -13,7 +13,7 @@ type Context = { params: Promise<{ resource: string }> };
 
 async function guard() { return Boolean((await cookies()).get("hpi_admin")?.value); }
 function isResource(resource: string): resource is Resource { return resource in map; }
-function normalize(data: any) { const out = { ...data }; if ("isActive" in out) out.isActive = out.isActive === true || out.isActive === "true"; if ("isPublished" in out) out.isPublished = out.isPublished === true || out.isPublished === "true"; if ("capacity" in out) out.capacity = Number(out.capacity); if ("date" in out && out.date) out.date = new Date(out.date); Object.keys(out).forEach((k) => out[k] === "" && (out[k] = null)); return out; }
+function normalize(data: any) { const out = { ...data }; if ("isActive" in out) out.isActive = out.isActive === true || out.isActive === "true"; if ("isPublished" in out) out.isPublished = out.isPublished === true || out.isPublished === "true"; if ("capacity" in out) out.capacity = Number(out.capacity); if ("date" in out && out.date) out.date = new Date(out.date); if ("publishedAt" in out && out.publishedAt) out.publishedAt = new Date(out.publishedAt); Object.keys(out).forEach((k) => out[k] === "" && (out[k] = null)); return out; }
 function revalidateWebsite(resource: Resource) { ["/", "/anggota", "/galeri", "/dokumentasi", "/transportasi", "/pengumuman"].forEach((path) => revalidatePath(path)); revalidatePath(`/admin/${resource}`); }
 function json(data: unknown, init?: ResponseInit) { const response = NextResponse.json(data, init); response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate"); return response; }
 

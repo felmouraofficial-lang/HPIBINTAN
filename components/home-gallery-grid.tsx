@@ -36,12 +36,12 @@ export function HomeGalleryGrid({ items }: { items: GalleryItem[] }) {
               <Image src={meetingCover} alt="Dokumentasi Rapat" fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover transition duration-700 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/62 via-black/10 to-transparent" />
               <span className="absolute left-5 top-5 rounded-full bg-[#f4e2bf] px-4 py-2 text-xs font-black uppercase tracking-[.18em] text-[#8a4719] shadow-sm">Album Rapat</span>
-              <span className="absolute bottom-5 right-5 rounded-full bg-white/94 px-4 py-2 text-xs font-black text-zinc-950 shadow-sm">15 Foto</span>
+              <span className="absolute bottom-5 right-5 rounded-full bg-white/94 px-4 py-2 text-xs font-black text-zinc-950 shadow-sm">43 Foto</span>
             </div>
             <div className="p-5">
               <Camera className="h-5 w-5 text-primary" />
               <h3 className="mt-3 text-xl font-black text-[#2f2119]">Dokumentasi Rapat</h3>
-              <p className="mt-2 text-sm leading-6 text-zinc-600">Kumpulan dokumentasi rapat pengurus dan koordinasi anggota HPI Pulau Bintan.</p>
+              <p className="mt-2 text-sm leading-6 text-zinc-600">Kumpulan dokumentasi rapat pengurus dan koordinasi anggota DPC HPI Kepulauan Bintan.</p>
             </div>
           </Link>
         )}
