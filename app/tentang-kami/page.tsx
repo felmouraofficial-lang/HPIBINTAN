@@ -7,51 +7,8 @@ import { PageHero } from "@/components/page-hero";
 import { Card } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import { logos } from "@/lib/utils";
-import { fallbackProfile } from "@/lib/fallback-data";
 
 export default async function AboutPage() {
-  let profile: typeof fallbackProfile = fallbackProfile;
-
-  try {
-    const savedProfile = await prisma.organizationProfile.findFirst();
-    profile = savedProfile
-      ? {
-          ...fallbackProfile,
-          ...savedProfile,
-          history: savedProfile.history?.trim() || fallbackProfile.history,
-          vision: savedProfile.vision?.trim() || fallbackProfile.vision,
-          mission: savedProfile.mission?.trim() || fallbackProfile.mission,
-          structure: savedProfile.structure?.trim() || fallbackProfile.structure,
-        }
-      : fallbackProfile;
-  } catch {}
-
-  return (
-    <>
-      <SiteHeader />
-      <PageHero title="Tentang Kami" description="Sejarah, visi, misi, dan struktur organisasi DPC HPI Kabupaten Bintan Kepulauan Riau." />
-      <main className="container grid gap-6 py-12 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <h2 className="text-2xl font-black">Sejarah</h2>
-          <p className="mt-3 leading-8 text-zinc-600">{profile.history}</p>
-        </Card>
-        <Card>
-          <div className="grid grid-cols-3 gap-3">{logos.map((logo) => <Image key={logo} src={logo} alt="Logo organisasi" width={120} height={120} className="rounded-lg object-contain" />)}</div>
-        </Card>
-        <Card>
-          <h2 className="text-xl font-black">Visi</h2>
-          <p className="mt-3 leading-7 text-zinc-600">{profile.vision}</p>
-        </Card>
-        <Card>
-          <h2 className="text-xl font-black">Misi</h2>
-          <p className="mt-3 leading-7 text-zinc-600">{profile.mission}</p>
-        </Card>
-        <Card>
-          <h2 className="text-xl font-black">Struktur Organisasi</h2>
-          <p className="mt-3 leading-7 text-zinc-600">{profile.structure}</p>
-        </Card>
-      </main>
-      <SiteFooter />
-    </>
-  );
+  const profile = await prisma.organizationProfile.findFirst();
+  return <><SiteHeader /><PageHero title="Tentang Kami" description="Sejarah, visi, misi, dan struktur organisasi DPC HPI Kabupaten Bintan Kepulauan Riau." /><main className="container grid gap-6 py-12 lg:grid-cols-3"><Card className="lg:col-span-2"><h2 className="text-2xl font-black">Sejarah</h2><p className="mt-3 leading-8 text-zinc-600">{profile?.history || ""}</p></Card><Card><div className="grid grid-cols-3 gap-3">{logos.map((logo) => <Image key={logo} src={logo} alt="Logo organisasi" width={120} height={120} className="rounded-lg object-contain" />)}</div></Card><Card><h2 className="text-xl font-black">Visi</h2><p className="mt-3 leading-7 text-zinc-600">{profile?.vision || ""}</p></Card><Card><h2 className="text-xl font-black">Misi</h2><p className="mt-3 leading-7 text-zinc-600">{profile?.mission || ""}</p></Card><Card><h2 className="text-xl font-black">Struktur Organisasi</h2><p className="mt-3 leading-7 text-zinc-600">{profile?.structure || ""}</p></Card></main><SiteFooter /></>;
 }

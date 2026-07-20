@@ -5,11 +5,15 @@ import { Trash2, Pencil, Plus, Search, UploadCloud, RefreshCw, CheckCircle2, Ale
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 
-type FieldType = "text" | "textarea" | "number" | "select" | "date" | "file";
+type FieldType = "text" | "textarea" | "number" | "select" | "date" | "file" | "multifile" | "checkbox";
 export type Field = { name: string; label: string; type?: FieldType; options?: string[]; required?: boolean; accept?: string };
 
 function isFileField(field: Field) {
-  return field.type === "file" || ["fileUrl", "thumbnail", "photo"].includes(field.name);
+  return field.type === "file" || ["fileUrl", "thumbnail", "photo", "cover", "coverImage", "pdfUrl", "logo", "favicon"].includes(field.name);
+}
+
+function isMultiFileField(field: Field) {
+  return field.type === "multifile" || ["gallery"].includes(field.name);
 }
 
 function fieldValue(row: any, field: Field) {
@@ -68,9 +72,16 @@ export function AdminCrud({ title, resource, fields }: { title: string; resource
     try {
       const data: Record<string, FormDataEntryValue | null> = {};
       for (const field of fields) {
-        if (isFileField(field)) {
+        if (isMultiFileField(field)) {
+          const files = form.getAll(field.name).filter((file): file is File => file instanceof File && file.size > 0);
+          const uploaded = await Promise.all(files.map(uploadFile));
+          const existing = editing?.[field.name] ? parseGalleryValue(editing[field.name]) : [];
+          data[field.name] = JSON.stringify([...existing, ...uploaded]);
+        } else if (isFileField(field)) {
           const file = form.get(field.name);
           data[field.name] = file instanceof File && file.size > 0 ? await uploadFile(file) : editing?.[field.name] ?? "";
+        } else if (field.type === "checkbox") {
+          data[field.name] = form.get(field.name) === "true" ? "true" : "false";
         } else {
           data[field.name] = form.get(field.name);
         }
@@ -124,6 +135,17 @@ export function AdminCrud({ title, resource, fields }: { title: string; resource
       {loading ? <div className="grid gap-3">{Array.from({ length: 5 }).map((_, i) => <div key={i} className="h-12 animate-pulse rounded-lg bg-zinc-100" />)}</div> : <div className="overflow-x-auto"><table className="w-full text-left text-sm"><thead><tr className="border-b"><th className="w-16 py-3 pr-4 font-bold">No</th>{fields.slice(0, 4).map((f) => <th key={f.name} className="py-3 pr-4 font-bold">{f.label}</th>)}<th>Aksi</th></tr></thead><tbody>{shown.map((row, index) => <tr key={row.id} className="border-b last:border-0"><td className="py-3 pr-4 font-black text-zinc-400">{(page - 1) * 8 + index + 1}</td>{fields.slice(0, 4).map((f) => <td key={f.name} className="max-w-52 truncate py-3 pr-4">{String(row[f.name] ?? "-")}</td>)}<td className="flex gap-2 py-2"><button className="rounded-lg border p-2" onClick={() => setEditing(row)} title="Edit"><Pencil className="h-4 w-4" /></button><button className="rounded-lg border p-2 text-primary" onClick={() => remove(row.id)} title="Hapus"><Trash2 className="h-4 w-4" /></button></td></tr>)}</tbody></table></div>}
       <div className="mt-4 flex justify-between text-sm"><button disabled={page === 1} onClick={() => setPage(page - 1)} className="disabled:opacity-40">Sebelumnya</button><span>Halaman {page} dari {pageCount}</span><button disabled={page * 8 >= filtered.length} onClick={() => setPage(page + 1)} className="disabled:opacity-40">Berikutnya</button></div>
     </Card>
-    {editing && <div className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4"><form action={submit} className="max-h-[90vh] w-full max-w-2xl overflow-auto rounded-xl bg-white p-5 shadow-soft"><h2 className="text-xl font-black">{editing.id ? "Edit" : "Tambah"} {title}</h2><div className="mt-5 grid gap-4">{fields.map((f) => <label key={f.name} className="grid gap-1 text-sm font-semibold">{f.label}{f.type === "textarea" ? <textarea name={f.name} defaultValue={fieldValue(editing, f)} required={f.required} className="min-h-28 rounded-lg border p-3" /> : f.type === "select" && f.name === "category" ? <div className="grid grid-cols-2 gap-2 rounded-xl bg-zinc-100 p-1">{f.options?.map((o) => <label key={o} className="relative cursor-pointer"><input type="radio" name={f.name} value={o} defaultChecked={(editing[f.name] ?? f.options?.[0]) === o} className="peer sr-only" /><span className="grid h-11 place-items-center rounded-lg text-sm font-black text-zinc-500 transition peer-checked:bg-white peer-checked:text-primary peer-checked:shadow-sm">{o === "PHOTO" ? "Foto" : o === "VIDEO" ? "Video" : o}</span></label>)}</div> : f.type === "select" ? <select name={f.name} defaultValue={fieldValue(editing, f) || f.options?.[0]} className="h-11 rounded-lg border px-3">{f.options?.map((o) => <option key={o} value={o}>{o}</option>)}</select> : isFileField(f) ? <div className="grid gap-2 rounded-xl border border-dashed border-zinc-300 p-4"><div className="flex items-center gap-2 text-zinc-600"><UploadCloud className="h-4 w-4" />Upload file dari komputer</div><input name={f.name} type="file" accept={f.accept ?? "image/*,application/pdf,.doc,.docx,video/mp4"} required={f.required && !editing?.[f.name]} className="rounded-lg border p-2" />{editing?.[f.name] && <span className="truncate text-xs font-medium text-zinc-500">File saat ini: {editing[f.name]}</span>}</div> : <input name={f.name} type={f.type ?? "text"} defaultValue={fieldValue(editing, f)} required={f.required} className="h-11 rounded-lg border px-3" />}</label>)}</div><div className="mt-5 flex justify-end gap-2"><button type="button" className="rounded-lg border px-4 py-2" onClick={() => setEditing(null)}>Batal</button><Button type="submit" disabled={saving}>{saving ? "Menyimpan..." : "Simpan"}</Button></div></form></div>}
+    {editing && <div className="fixed inset-0 z-50 grid place-items-center bg-black/40 p-4"><form action={submit} className="max-h-[90vh] w-full max-w-2xl overflow-auto rounded-xl bg-white p-5 shadow-soft"><h2 className="text-xl font-black">{editing.id ? "Edit" : "Tambah"} {title}</h2><div className="mt-5 grid gap-4">{fields.map((f) => <label key={f.name} className="grid gap-1 text-sm font-semibold">{f.label}{f.type === "textarea" ? <textarea name={f.name} defaultValue={fieldValue(editing, f)} required={f.required} className="min-h-28 rounded-lg border p-3" /> : f.type === "checkbox" ? <span className="flex h-11 items-center gap-3 rounded-lg border px-3"><input name={f.name} type="checkbox" value="true" defaultChecked={editing[f.name] === true || editing[f.name] === "true"} className="h-5 w-5 accent-primary" />Aktif</span> : f.type === "select" && f.name === "category" ? <div className="grid grid-cols-2 gap-2 rounded-xl bg-zinc-100 p-1">{f.options?.map((o) => <label key={o} className="relative cursor-pointer"><input type="radio" name={f.name} value={o} defaultChecked={(editing[f.name] ?? f.options?.[0]) === o} className="peer sr-only" /><span className="grid h-11 place-items-center rounded-lg text-sm font-black text-zinc-500 transition peer-checked:bg-white peer-checked:text-primary peer-checked:shadow-sm">{o === "PHOTO" ? "Foto" : o === "VIDEO" ? "Video" : o}</span></label>)}</div> : f.type === "select" ? <select name={f.name} defaultValue={fieldValue(editing, f) || f.options?.[0]} className="h-11 rounded-lg border px-3">{f.options?.map((o) => <option key={o} value={o}>{o}</option>)}</select> : isMultiFileField(f) ? <div className="grid gap-2 rounded-xl border border-dashed border-zinc-300 p-4"><div className="flex items-center gap-2 text-zinc-600"><UploadCloud className="h-4 w-4" />Upload banyak file</div><input name={f.name} type="file" accept={f.accept ?? "image/*"} multiple className="rounded-lg border p-2" />{editing?.[f.name] && <span className="truncate text-xs font-medium text-zinc-500">File saat ini: {parseGalleryValue(editing[f.name]).join(", ")}</span>}</div> : isFileField(f) ? <div className="grid gap-2 rounded-xl border border-dashed border-zinc-300 p-4"><div className="flex items-center gap-2 text-zinc-600"><UploadCloud className="h-4 w-4" />Upload file dari komputer</div><input name={f.name} type="file" accept={f.accept ?? "image/*,application/pdf,.doc,.docx,video/mp4"} required={f.required && !editing?.[f.name]} className="rounded-lg border p-2" />{editing?.[f.name] && <span className="truncate text-xs font-medium text-zinc-500">File saat ini: {editing[f.name]}</span>}</div> : <input name={f.name} type={f.type ?? "text"} defaultValue={fieldValue(editing, f)} required={f.required} className="h-11 rounded-lg border px-3" />}</label>)}</div><div className="mt-5 flex justify-end gap-2"><button type="button" className="rounded-lg border px-4 py-2" onClick={() => setEditing(null)}>Batal</button><Button type="submit" disabled={saving}>{saving ? "Menyimpan..." : "Simpan"}</Button></div></form></div>}
   </div>;
+}
+
+function parseGalleryValue(value: unknown): string[] {
+  if (Array.isArray(value)) return value.map(String);
+  if (typeof value !== "string" || !value.trim()) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch {
+    return value.split(",").map((item) => item.trim()).filter(Boolean);
+  }
 }

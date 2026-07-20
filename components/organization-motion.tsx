@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 
 type MemberCard = { id: string; name: string; position: string; photo?: string | null };
 
-const fallbackPhotos = ["/member-dummy-1.jpeg", "/member-dummy-2.jpeg", "/member-dummy-3.jpeg", "/uploads/1784221461556-45d0d916-4095-4a31-b7f1-8a639e67d2d9.jpg"];
-
 export function OrganizationMotion({ members }: { members: MemberCard[] }) {
+  if (!members.length) return <div className="mt-12 rounded-2xl border border-dashed border-[#ead6bc] bg-white p-8 text-center font-bold text-[#8f765f]">Belum ada anggota aktif di database.</div>;
+
   return (
     <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {members.map((member, index) => (
@@ -33,7 +33,7 @@ export function OrganizationMotion({ members }: { members: MemberCard[] }) {
             <div className="absolute inset-0 rotate-y-180 overflow-hidden rounded-[1.75rem] border border-[#f2d9ad] bg-[#fffaf1] px-6 py-10 text-center shadow-[0_22px_70px_rgba(70,42,24,.12)] backface-hidden">
               <div className="flex h-full flex-col items-center justify-center">
                 <div className="relative grid h-40 w-40 place-items-center overflow-hidden rounded-full border-[6px] border-[#ff9900] bg-white">
-                  <Image src={member.photo || fallbackPhotos[index % fallbackPhotos.length]} alt={member.name} fill sizes="180px" className="object-cover" />
+                  {member.photo ? <Image src={member.photo} alt={member.name} fill sizes="180px" className="object-cover" /> : <span className="text-4xl font-black text-[#8a4719]">HPI</span>}
                 </div>
                 <div className="mt-8 rounded-full bg-[#884416] px-5 py-2 text-[11px] font-black uppercase tracking-[.24em] text-white">{member.position}</div>
                 <h3 className="mt-6 text-2xl font-black leading-tight text-[#2f2119] md:text-3xl">{member.name}</h3>

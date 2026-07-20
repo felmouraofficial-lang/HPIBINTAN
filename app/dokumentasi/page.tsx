@@ -7,21 +7,14 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero } from "@/components/page-hero";
 import { prisma } from "@/lib/prisma";
-import { fallbackDocuments } from "@/lib/fallback-data";
-
-type DocumentItem = Omit<(typeof fallbackDocuments)[number], "description"> & { description?: string | null };
+type DocumentItem = { id: string; title: string; fileUrl: string; fileType: string; thumbnail?: string | null; category?: string | null; description?: string | null };
 
 function isImageUrl(url: string) {
-  return /\.(jpg|jpeg|png|webp|gif)$/i.test(url) || url.includes("images.unsplash.com");
+  return /\.(jpg|jpeg|png|webp|gif)$/i.test(url) || url.startsWith("data:image/");
 }
 
 export default async function DocumentsPage() {
-  let data: DocumentItem[] = fallbackDocuments;
-
-  try {
-    const dbData = await prisma.documentation.findMany({ orderBy: { createdAt: "desc" } });
-    data = dbData.length ? dbData : fallbackDocuments;
-  } catch {}
+  const data: DocumentItem[] = await prisma.documentation.findMany({ orderBy: { createdAt: "desc" } });
 
   return (
     <>
@@ -42,12 +35,12 @@ export default async function DocumentsPage() {
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {data.map((item, index) => {
-              const imageCover = isImageUrl(item.fileUrl);
+              const imageCover = Boolean(item.thumbnail) || isImageUrl(item.fileUrl);
               return (
                 <article key={item.id} className="group overflow-hidden rounded-[1.6rem] border border-black/5 bg-white shadow-soft transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(20,20,20,.15)] dark:border-white/10 dark:bg-white/8">
                   <div className="relative m-3 h-56 overflow-hidden rounded-[1.25rem] bg-[#efe4d0]">
                     {imageCover ? (
-                      <Image src={item.fileUrl} alt={item.title} fill sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" />
+                      <Image src={item.thumbnail || item.fileUrl} alt={item.title} fill sizes="(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" />
                     ) : (
                       <div className="grid h-full place-items-center bg-[linear-gradient(135deg,#f7ead2,#fff,#d9edf7)]">
                         <FileDown className="h-16 w-16 text-primary" />
@@ -59,7 +52,7 @@ export default async function DocumentsPage() {
                   </div>
                   <div className="px-5 pb-5">
                     <h3 className="text-xl font-black leading-tight text-zinc-950 dark:text-white">{item.title}</h3>
-                    <p className="mt-2 min-h-12 text-sm leading-6 text-zinc-600 dark:text-zinc-300">{item.description || "Dokumen organisasi yang dapat diperbarui melalui dashboard admin."}</p>
+                    <p className="mt-2 min-h-12 text-sm leading-6 text-zinc-600 dark:text-zinc-300">{item.description || item.category || ""}</p>
                     <Link href={item.fileUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex items-center gap-2 rounded-full bg-zinc-950 px-5 py-3 text-xs font-black uppercase tracking-[.14em] text-white transition hover:bg-primary dark:bg-white dark:text-zinc-950">
                       Buka Arsip <ArrowUpRight className="h-4 w-4" />
                     </Link>

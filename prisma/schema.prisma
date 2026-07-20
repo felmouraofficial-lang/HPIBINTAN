@@ -29,6 +29,95 @@ model OrganizationProfile {
   updatedAt    DateTime @updatedAt
 }
 
+model HomeContent {
+  id              String   @id @default(cuid())
+  heroTitle       String   @default("DPC HPI Kabupaten Bintan")
+  heroSubtitle    String   @default("") @db.Text
+  heroCtaText     String   @default("Guide Booking")
+  heroCtaUrl      String   @default("https://wa.me/6281275657026")
+  heroImage       String?
+  aboutTitle      String   @default("Tentang Organisasi")
+  aboutContent    String   @default("") @db.Text
+  visionTitle     String   @default("Visi")
+  visionContent   String   @default("") @db.Text
+  missionTitle    String   @default("Misi")
+  missionContent  String   @default("") @db.Text
+  footerText      String   @default("") @db.Text
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+}
+
+model WebsiteSetting {
+  id          String   @id @default(cuid())
+  websiteName String   @default("HPI Bintan")
+  logo        String?
+  favicon     String?
+  address     String   @default("") @db.Text
+  email       String?
+  phone       String?
+  whatsapp    String?
+  socials     String   @default("") @db.Text
+  footer      String   @default("") @db.Text
+  copyright   String   @default("Copyright 2026 HPI Bintan")
+  updatedAt   DateTime @updatedAt
+  createdAt   DateTime @default(now())
+}
+
+model MediaItem {
+  id          String   @id @default(cuid())
+  url         String
+  filename    String
+  mimeType    String
+  size        Int
+  alt         String?
+  folder      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Destination {
+  id                String   @id @default(cuid())
+  name              String
+  slug              String   @unique
+  category          String
+  location          String
+  latitude          Float?
+  longitude        Float?
+  googleMapsUrl    String?
+  thumbnail        String?
+  gallery          String   @db.Text @default("[]")
+  shortDescription String   @db.Text
+  longDescription  String   @db.Text
+  facilities       String?  @db.Text
+  openingHours     String?
+  ticketPrice      String?
+  contact          String?
+  whatsapp         String?
+  featured         Boolean  @default(false)
+  isPublished      Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Agenda {
+  id                String   @id @default(cuid())
+  coverImage       String?
+  title            String
+  slug             String   @unique
+  badge            String?
+  shortDescription String   @db.Text
+  longDescription  String   @db.Text
+  date             DateTime
+  time             String?
+  location         String?
+  registrationUrl  String?
+  contactPerson    String?
+  isPublished      Boolean  @default(false)
+  featured         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
 model Member {
   id                 String              @id @default(cuid())
   name               String
@@ -87,7 +176,10 @@ model Gallery {
   category    GalleryCategory
   fileUrl     String
   thumbnail   String?
+  caption     String?
   description String?
+  sortOrder   Int             @default(0)
+  isPublished Boolean         @default(false)
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 }
@@ -97,6 +189,8 @@ model Documentation {
   title       String
   fileUrl     String
   fileType    String
+  thumbnail   String?
+  category    String?
   description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -107,9 +201,14 @@ model Transportation {
   name        String
   vehicleType String
   capacity    Int
+  category    String?
   status      TransportStatus @default(AVAILABLE)
   photo       String?
   description String?
+  contact     String?
+  whatsapp    String?
+  price       String?
+  isPublished Boolean         @default(false)
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 }
@@ -117,7 +216,12 @@ model Transportation {
 model Announcement {
   id          String   @id @default(cuid())
   title       String
+  slug        String?  @unique
+  cover       String?
+  thumbnail   String?
   content     String   @db.Text
+  fullContent String?  @db.Text
+  pdfUrl      String?
   publishedAt DateTime @default(now())
   isPublished Boolean  @default(true)
   createdAt   DateTime @default(now())

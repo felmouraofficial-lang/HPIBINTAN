@@ -3,35 +3,28 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, MapPin } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 
-type Announcement = { id: string; title: string; content: string; publishedAt: Date };
-type Meeting = { id: string; title: string; date: Date; time: string; location: string; description?: string | null };
+type Announcement = { id: string; title: string; content: string; cover?: string | null; thumbnail?: string | null; publishedAt: Date };
+type Agenda = { id: string; title: string; badge?: string | null; coverImage?: string | null; date: Date; time?: string | null; location?: string | null; shortDescription: string };
 
-const thumbnails = [
-  "/uploads/1784221305257-f652719a-d758-47ae-ae59-a9beca92924e.jpg",
-  "/head-background.jpg",
-  "/uploads/1784221461556-45d0d916-4095-4a31-b7f1-8a639e67d2d9.jpg",
-  "/uploads/1784221461527-66d2964b-c108-46b0-97b9-b04edec00383.jpg",
-];
-
-export function HomeAgendaSection({ announcements, meetings }: { announcements: Announcement[]; meetings: Meeting[] }) {
+export function HomeAgendaSection({ announcements, agendas }: { announcements: Announcement[]; agendas: Agenda[] }) {
   const items = [
-    ...announcements.map((item, index) => ({
+    ...announcements.map((item) => ({
       id: `announcement-${item.id}`,
       title: item.title,
       date: item.publishedAt,
       location: "HPI Pulau Bintan",
       category: "Pengumuman",
       summary: item.content,
-      image: thumbnails[index % thumbnails.length],
+      image: item.cover || item.thumbnail || "/hero-bintan.jpg",
     })),
-    ...meetings.map((item, index) => ({
-      id: `meeting-${item.id}`,
+    ...agendas.map((item) => ({
+      id: `agenda-${item.id}`,
       title: item.title,
       date: item.date,
-      location: item.location,
-      category: "Kegiatan",
-      summary: item.description || `${item.time} - agenda kegiatan HPI Pulau Bintan.`,
-      image: thumbnails[(index + 1) % thumbnails.length],
+      location: item.location || "HPI Pulau Bintan",
+      category: item.badge || "Kegiatan",
+      summary: item.shortDescription || `${item.time ?? ""} agenda kegiatan HPI Pulau Bintan.`,
+      image: item.coverImage || "/hero-bintan.jpg",
     })),
   ].slice(0, 4);
 

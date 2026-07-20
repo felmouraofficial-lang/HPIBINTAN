@@ -5,14 +5,14 @@ import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 
-const map = { members: prisma.member, announcements: prisma.announcement, gallery: prisma.gallery, documents: prisma.documentation, transportation: prisma.transportation, meetings: prisma.meeting, attendance: prisma.attendance } as const;
+const map = { members: prisma.member, announcements: prisma.announcement, gallery: prisma.gallery, documents: prisma.documentation, transportation: prisma.transportation, meetings: prisma.meeting, attendance: prisma.attendance, destinations: prisma.destination, agendas: prisma.agenda, media: prisma.mediaItem, websiteSettings: prisma.websiteSetting, homeContent: prisma.homeContent } as const;
 type Resource = keyof typeof map;
 type Context = { params: Promise<{ resource: string; id: string }> };
 
 async function guard() { return Boolean((await cookies()).get("hpi_admin")?.value); }
 function isResource(resource: string): resource is Resource { return resource in map; }
-function normalize(data: any) { const out = { ...data }; if ("isActive" in out) out.isActive = out.isActive === true || out.isActive === "true"; if ("isPublished" in out) out.isPublished = out.isPublished === true || out.isPublished === "true"; if ("capacity" in out) out.capacity = Number(out.capacity); if ("date" in out && out.date) out.date = new Date(out.date); if ("publishedAt" in out && out.publishedAt) out.publishedAt = new Date(out.publishedAt); Object.keys(out).forEach((k) => out[k] === "" && (out[k] = null)); return out; }
-function revalidateWebsite(resource: Resource) { ["/", "/anggota", "/galeri", "/dokumentasi", "/transportasi", "/pengumuman"].forEach((path) => revalidatePath(path)); revalidatePath(`/admin/${resource}`); }
+function normalize(data: any) { const out = { ...data }; ["isActive", "isPublished", "featured"].forEach((key) => { if (key in out) out[key] = out[key] === true || out[key] === "true"; }); ["capacity", "sortOrder"].forEach((key) => { if (key in out && out[key] !== "") out[key] = Number(out[key]); }); ["latitude", "longitude"].forEach((key) => { if (key in out && out[key] !== "") out[key] = Number(out[key]); }); ["date", "publishedAt"].forEach((key) => { if (key in out && out[key]) out[key] = new Date(out[key]); }); if ("gallery" in out && Array.isArray(out.gallery)) out.gallery = JSON.stringify(out.gallery); Object.keys(out).forEach((k) => out[k] === "" && (out[k] = null)); return out; }
+function revalidateWebsite(resource: Resource) { ["/", "/anggota", "/galeri", "/dokumentasi", "/transportasi", "/pengumuman", "/destinasi", "/kontak", "/tentang-kami"].forEach((path) => revalidatePath(path)); revalidatePath(`/admin/${resource}`); }
 function json(data: unknown, init?: ResponseInit) { const response = NextResponse.json(data, init); response.headers.set("Cache-Control", "no-store, no-cache, must-revalidate"); return response; }
 
 export async function PUT(request: Request, context: Context) {

@@ -7,21 +7,14 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { PageHero } from "@/components/page-hero";
 import { prisma } from "@/lib/prisma";
-import { fallbackGallery } from "@/lib/fallback-data";
-
-type GalleryItem = Omit<(typeof fallbackGallery)[number], "category" | "description"> & { category: "PHOTO" | "VIDEO"; description?: string | null };
+type GalleryItem = { id: string; title: string; category: "PHOTO" | "VIDEO"; fileUrl: string; thumbnail?: string | null; caption?: string | null; description?: string | null };
 
 export default async function GalleryPage() {
-  let data: GalleryItem[] = fallbackGallery;
-
-  try {
-    const dbData = await prisma.gallery.findMany({ orderBy: { createdAt: "desc" } });
-    data = dbData.length ? dbData : fallbackGallery;
-  } catch {}
+  const data: GalleryItem[] = await prisma.gallery.findMany({ where: { isPublished: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }] });
 
   const meetingPhotos = data.filter((item) => item.fileUrl.includes("/foto-rapat/"));
-  const meetingCover = meetingPhotos[0]?.fileUrl ?? "/foto-rapat/rapat-01.jpeg";
-  const meetingCount = Math.max(meetingPhotos.length, 43);
+  const meetingCover = meetingPhotos[0]?.thumbnail || meetingPhotos[0]?.fileUrl || "/hero-bintan.jpg";
+  const meetingCount = meetingPhotos.length;
   const regularItems = data.filter((item) => !item.fileUrl.includes("/foto-rapat/"));
 
   return (
@@ -60,12 +53,12 @@ export default async function GalleryPage() {
                 {regularItems.map((item) => (
                   <article key={item.id} className="group overflow-hidden rounded-[1.65rem] bg-white shadow-soft transition duration-300 hover:-translate-y-1 dark:bg-white/8">
                     <div className="relative h-64 overflow-hidden">
-                      {item.category === "VIDEO" ? <video src={item.fileUrl} controls className="h-full w-full object-cover" /> : <Image src={item.fileUrl} alt={item.title} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" />}
+                      {item.category === "VIDEO" ? <video src={item.fileUrl} controls poster={item.thumbnail || undefined} className="h-full w-full object-cover" /> : <Image src={item.thumbnail || item.fileUrl} alt={item.title} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" />}
                     </div>
                     <div className="p-5">
                       <Camera className="h-5 w-5 text-primary" />
                       <h3 className="mt-3 text-xl font-black text-zinc-950 dark:text-white">{item.title}</h3>
-                      <p className="mt-1 text-sm font-semibold text-zinc-500">{item.category}</p>
+                      <p className="mt-1 text-sm font-semibold text-zinc-500">{item.caption || item.category}</p>
                     </div>
                   </article>
                 ))}
