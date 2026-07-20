@@ -16,18 +16,23 @@ import { prisma } from "@/lib/prisma";
 import { logos } from "@/lib/utils";
 
 async function getHomeData() {
-  const [home, settings, members, announcements, agendas, gallery, transport, contact, destinations] = await Promise.all([
-    prisma.homeContent.findFirst(),
-    prisma.websiteSetting.findFirst(),
-    prisma.member.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" }, take: 4 }),
-    prisma.announcement.findMany({ where: { isPublished: true }, orderBy: { publishedAt: "desc" }, take: 3 }),
-    prisma.agenda.findMany({ where: { isPublished: true }, orderBy: { date: "asc" }, take: 3 }),
-    prisma.gallery.findMany({ where: { isPublished: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }], take: 6 }),
-    prisma.transportation.findMany({ where: { isPublished: true }, orderBy: { createdAt: "desc" }, take: 4 }),
-    prisma.contact.findFirst(),
-    prisma.destination.findMany({ where: { isPublished: true }, orderBy: [{ featured: "desc" }, { createdAt: "desc" }], take: 12 }),
-  ]);
-  return { home, settings, members, announcements, agendas, gallery, transport, contact, destinations };
+  try {
+    const [home, settings, members, announcements, agendas, gallery, transport, contact, destinations] = await Promise.all([
+      prisma.homeContent.findFirst(),
+      prisma.websiteSetting.findFirst(),
+      prisma.member.findMany({ where: { isActive: true }, orderBy: { createdAt: "asc" }, take: 4 }),
+      prisma.announcement.findMany({ where: { isPublished: true }, orderBy: { publishedAt: "desc" }, take: 3 }),
+      prisma.agenda.findMany({ where: { isPublished: true }, orderBy: { date: "asc" }, take: 3 }),
+      prisma.gallery.findMany({ where: { isPublished: true }, orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }], take: 6 }),
+      prisma.transportation.findMany({ where: { isPublished: true }, orderBy: { createdAt: "desc" }, take: 4 }),
+      prisma.contact.findFirst(),
+      prisma.destination.findMany({ where: { isPublished: true }, orderBy: [{ featured: "desc" }, { createdAt: "desc" }], take: 12 }),
+    ]);
+    return { home, settings, members, announcements, agendas, gallery, transport, contact, destinations };
+  } catch (error) {
+    console.error("Homepage CMS query failed", error);
+    return { home: null, settings: null, members: [], announcements: [], agendas: [], gallery: [], transport: [], contact: null, destinations: [] };
+  }
 }
 
 export default async function HomePage() {
