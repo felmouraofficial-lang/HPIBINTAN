@@ -4,29 +4,16 @@ import { AdminShell } from "@/components/admin-shell";
 import { AdminDestinationsManager } from "@/components/admin-destinations-manager";
 import { prisma } from "@/lib/prisma";
 import { fallbackDestinations } from "@/lib/fallback-data";
-
-type Destination = {
-  category: string;
-  name: string;
-  description: string;
-  location: string;
-  image: string;
-  mapUrl?: string;
-};
-
-function parseDestinations(value?: string | null): Destination[] {
-  if (!value) return fallbackDestinations;
-  try {
-    const data = JSON.parse(value);
-    return Array.isArray(data) && data.length ? data : fallbackDestinations;
-  } catch {
-    return fallbackDestinations;
-  }
-}
+import { fromPrismaDestination, parseStoredDestinations, type PublicDestination } from "@/lib/destinations";
 
 export default async function AdminDestinationsPage() {
-  const setting = await prisma.settings.findUnique({ where: { key: "destinations" } }).catch(() => null);
-  const destinations = parseDestinations(setting?.value);
+  const [dbDestinations, setting] = await Promise.all([
+    prisma.destination.findMany({ where: { isPublished: true }, orderBy: [{ featured: "desc" }, { createdAt: "desc" }] }).catch(() => []),
+    prisma.settings.findUnique({ where: { key: "destinations" } }).catch(() => null),
+  ]);
+  const fromDatabase: PublicDestination[] = dbDestinations.map(fromPrismaDestination);
+  const fromSettings = parseStoredDestinations(setting?.value);
+  const destinations = fromDatabase.length ? fromDatabase : fromSettings.length ? fromSettings : fallbackDestinations;
 
   return <AdminShell><AdminDestinationsManager initialDestinations={destinations} /></AdminShell>;
 }

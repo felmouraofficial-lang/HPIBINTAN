@@ -13,6 +13,7 @@ import { Card } from "@/components/ui/card";
 import { OrganizationMotion } from "@/components/organization-motion";
 import { DestinationSection } from "@/components/destination-section";
 import { prisma } from "@/lib/prisma";
+import { fromPrismaDestination, parseStoredDestinations } from "@/lib/destinations";
 import { logos } from "@/lib/utils";
 import {
   fallbackAnnouncements,
@@ -43,6 +44,7 @@ async function getHomeData() {
     safe(() => prisma.settings.findMany(), []),
   ]);
   const setting = Object.fromEntries(legacySettings.map((item) => [item.key, item.value]));
+  const storedDestinations = parseStoredDestinations(setting.destinations);
   const homeContent = home ?? {
     heroTitle: profile?.heroTitle || fallbackProfile.heroTitle,
     heroSubtitle: profile?.heroSubtitle || fallbackProfile.heroSubtitle,
@@ -66,7 +68,7 @@ async function getHomeData() {
     gallery: gallery.length ? gallery : fallbackGallery,
     transport: transport.length ? transport : fallbackTransportation,
     contact: contact ?? fallbackContact,
-    destinations: destinations.length ? destinations.map((item) => ({ category: item.category, name: item.name, description: item.shortDescription, location: item.location, image: item.thumbnail || firstGalleryImage(item.gallery) || fallbackSettings.hero_image, mapUrl: item.googleMapsUrl || undefined })) : parseArray(setting.destinations, fallbackDestinations),
+    destinations: destinations.length ? destinations.map(fromPrismaDestination) : storedDestinations.length ? storedDestinations : fallbackDestinations,
     partners: parseArray(setting.partners, fallbackPartners),
   };
 }
@@ -83,7 +85,6 @@ export default async function HomePage() {
 }
 
 async function safe<T>(query: () => Promise<T>, fallback: T) { try { return await query(); } catch { return fallback; } }
-function firstGalleryImage(value: string) { try { const parsed = JSON.parse(value); return Array.isArray(parsed) ? String(parsed[0] || "") : ""; } catch { return ""; } }
 function parseJson<T>(value: string | undefined, fallback: T): T { try { return value ? (JSON.parse(value) as T) : fallback; } catch { return fallback; } }
 function parseArray<T>(value: string | undefined, fallback: T[]): T[] { const parsed = parseJson<T[]>(value, fallback); return parsed.length ? parsed : fallback; }
 
